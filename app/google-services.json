@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "687526033739",
+    "firebase_url": "https://bujo-4eda2.firebaseio.com",
+    "project_id": "bujo-4eda2",
+    "storage_bucket": "bujo-4eda2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687526033739:android:7356f7adf7c83cb6",
+        "android_client_info": {
+          "package_name": "com.gavincode.bujo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687526033739-n51ek37371eqm34tuqtdi0dimqj96e05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvR0pBxHlj5Hj8mI2U8w9JiPhFE_Dg_0M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
