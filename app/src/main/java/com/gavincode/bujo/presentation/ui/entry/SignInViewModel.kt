@@ -1,4 +1,4 @@
-package com.gavincode.bujo.ui.entry
+package com.gavincode.bujo.presentation.ui.entry
 
 import android.arch.lifecycle.ViewModel
 

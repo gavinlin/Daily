@@ -1,4 +1,4 @@
-package com.gavincode.bujo.ui
+package com.gavincode.bujo.presentation.ui.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

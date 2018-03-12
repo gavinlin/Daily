@@ -7,9 +7,10 @@ android {
     defaultConfig {
         applicationId "com.gavincode.bujo"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,9 +49,21 @@ dependencies {
 
     implementation Deps.kotlin_stdlib
 
+    implementation Deps.room
+    kapt Deps.room_compiler
+    implementation Deps.room_rxjava2
+
+    implementation Deps.lifecycle
+    kapt Deps.lifecycle_compiler
+
+    implementation Deps.gson
+
     testImplementation Deps.test_junit
-    testImplementation Deps.test_runner
-    androidTestImplementation Deps.test_espresso
+    androidTestImplementation Deps.test_runner
+    testImplementation Deps.room_test
+    androidTestImplementation Deps.espresso_core
+    androidTestImplementation Deps.espresso_contrib
+    androidTestImplementation Deps.espresso_intents
 }
 
 apply plugin: 'com.google.gms.google-services'

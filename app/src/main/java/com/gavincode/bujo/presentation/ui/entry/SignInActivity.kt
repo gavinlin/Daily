@@ -1,4 +1,4 @@
-package com.gavincode.bujo.ui.entry
+package com.gavincode.bujo.presentation.ui.entry
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.firebase.ui.auth.AuthUI
 import com.gavincode.bujo.R
-import com.gavincode.bujo.ui.MainActivity
+import com.gavincode.bujo.presentation.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*

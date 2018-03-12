@@ -1,10 +1,11 @@
-package com.gavincode.bujo.ui
+package com.gavincode.bujo.presentation
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gavincode.bujo.R
-import com.gavincode.bujo.ui.entry.SignInActivity
+import com.gavincode.bujo.presentation.ui.entry.SignInActivity
+import com.gavincode.bujo.presentation.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
 
