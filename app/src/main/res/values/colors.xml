@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="calendar_text_default">#9C9CA0</color>
+    <color name="calendar_month_transparent_background">#DDFFFFFF</color>
+    <color name="calendar_divider_color">#F3F3F3</color>
 </resources>
