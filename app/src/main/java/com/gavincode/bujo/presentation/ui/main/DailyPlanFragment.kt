@@ -5,12 +5,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.widget.CalendarEvent
+import com.gavincode.bujo.presentation.ui.widget.CalendarManager
+import com.gavincode.bujo.presentation.ui.widget.WeekCalendar
+import com.gavincode.bujo.presentation.util.CalendarBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import org.threeten.bp.LocalDate
 import timber.log.Timber
 
 /**
@@ -25,12 +30,28 @@ class DailyPlanFragment: Fragment() {
         }
     }
 
-    @BindView(R.id.daily_plan_content)
-    lateinit var contentTextView: TextView
+    @BindView(R.id.week_calendar_view)
+    lateinit var calendarView: WeekCalendar
+
+    @BindView(R.id.daily_button)
+    lateinit var button: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val calendarManager = CalendarManager
+        val minDate = LocalDate.now().minusMonths(2).withDayOfMonth(1)
+        val maxDate = LocalDate.now().plusYears(1)
+        calendarManager.buildCal(minDate, maxDate)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
         ButterKnife.bind(this, view)
+        calendarView.init()
+
+        button.setOnClickListener {
+            CalendarBus.send(CalendarEvent.ListViewTouchEvent())
+        }
         return view
     }
 

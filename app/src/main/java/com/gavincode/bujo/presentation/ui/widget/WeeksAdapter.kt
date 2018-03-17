@@ -3,7 +3,6 @@ package com.gavincode.bujo.presentation.ui.widget
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.res.Resources
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -16,7 +15,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.util.CalendarBus
-import io.reactivex.subjects.PublishSubject
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.TextStyle
 import java.util.*
@@ -25,17 +23,22 @@ import java.util.*
  * Created by gavinlin on 14/3/18.
  */
 
-class WeeksAdapter(val context: Context, val today: LocalDate,
+class WeeksAdapter(val today: LocalDate,
                    val dayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int)
     : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     companion object {
-        const val FADE_DURATION: Long = 250
+        const val FADE_DURATION: Long = 200
     }
 
     val weekList: MutableList<WeekItem> = mutableListOf()
-    var dragging: Boolean = false
     var alphaSet: Boolean = false
+
+    var dragging: Boolean = false
+        set(value) {
+            field = value
+            notifyItemRangeChanged(0, weekList.size)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_week, parent, false)
@@ -50,8 +53,6 @@ class WeeksAdapter(val context: Context, val today: LocalDate,
         val weekItem = weekList[position]
         holder?.bindWeek(weekItem, today)
     }
-
-    fun isDragging() = dragging
 
     inner class WeekViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val mCells: MutableList<LinearLayout> = mutableListOf()
@@ -98,6 +99,7 @@ class WeeksAdapter(val context: Context, val today: LocalDate,
                     }
 
                 })
+                fadeIn.start()
             } else {
                 val fadeOut = AnimatorSet()
                 fadeOut.duration = FADE_DURATION
@@ -122,6 +124,7 @@ class WeeksAdapter(val context: Context, val today: LocalDate,
                     }
 
                 })
+                fadeOut.start()
             }
 
             if (alphaSet) {
@@ -194,5 +197,11 @@ class WeeksAdapter(val context: Context, val today: LocalDate,
                 }
             }
         }
+    }
+
+    fun updateWeeksItem(weeks: List<WeekItem>) {
+        weekList.clear()
+        weekList.addAll(weeks)
+        notifyDataSetChanged()
     }
 }

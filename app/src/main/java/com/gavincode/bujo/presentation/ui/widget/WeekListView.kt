@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.gavincode.bujo.presentation.util.CalendarBus
-import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by gavinlin on 14/3/18.
@@ -15,7 +14,6 @@ class WeekListView: RecyclerView {
 
     var mUserScrolling: Boolean = false
     var mScrolling: Boolean = false
-    val scrollEventSubject = PublishSubject.create<Int>()
 
     constructor(context: Context) : super(context)
 
@@ -60,7 +58,6 @@ class WeekListView: RecyclerView {
                 RecyclerView.SCROLL_STATE_DRAGGING -> {
 //                    BusProvider.getInstance().send(Events.CalendarScrolledEvent())
                     CalendarBus.send(CalendarEvent.CalendarScrollEvent())
-                    scrollEventSubject.onNext(0)
                     // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
                     if (!mScrolling) {
                         mUserScrolling = true
