@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.gavincode.bujo.presentation.util.CalendarBus
+import timber.log.Timber
 
 /**
  * Created by gavinlin on 14/3/18.
@@ -14,6 +15,7 @@ class WeekListView: RecyclerView {
 
     var mUserScrolling: Boolean = false
     var mScrolling: Boolean = false
+
 
     constructor(context: Context) : super(context)
 
@@ -46,6 +48,7 @@ class WeekListView: RecyclerView {
 
             when (newState) {
                 RecyclerView.SCROLL_STATE_IDLE -> {
+                    Timber.i("scroll state idle")
                     if (mUserScrolling) {
                         scrollToView(getCenterView())
                         postDelayed({ weeksAdapter.dragging = false }, 700) // Wait for recyclerView to settle
@@ -62,13 +65,16 @@ class WeekListView: RecyclerView {
                     if (!mScrolling) {
                         mUserScrolling = true
                     }
+
                     weeksAdapter.dragging = true
+                    Timber.i("scroll state  dragging")
                 }
                 RecyclerView.SCROLL_STATE_SETTLING -> {
                     // The user's finger is not touching the list anymore, no need
                     // for any alpha animation then
                     weeksAdapter.alphaSet = true
                     mScrolling = true
+                    Timber.i("scroll state settling")
                 }
             }
         }

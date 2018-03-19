@@ -7,19 +7,10 @@ import org.threeten.bp.LocalDate
  */
 
 data class DayItem(
-        var date: LocalDate, var value: Int,
-        var isToday: Boolean, var month: String
+        val date: LocalDate, val value: Int,
+        var month: String
 ) {
-    var dayOfTheWeek: Int = 0
-    var isFirstDayOfTheMonth: Boolean = false
+    val isToday = date.isEqual(LocalDate.now())
+    val isFirstDayOfTheMonth: Boolean = date.isEqual(date.withDayOfMonth(1))
     var isSelected: Boolean = false
-
-    fun buildDayItem(localDate: LocalDate) {
-        date = localDate
-
-        value = date.dayOfMonth
-        isToday = localDate.isEqual(LocalDate.now())
-        month = date.month.name
-        isFirstDayOfTheMonth = date.isEqual(date.withDayOfMonth(1))
-    }
 }

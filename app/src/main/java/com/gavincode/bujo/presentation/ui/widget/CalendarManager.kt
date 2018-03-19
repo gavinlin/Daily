@@ -55,7 +55,7 @@ object CalendarManager {
 
         for (i in 0..6) {
             val dayItem = DayItem(localDay, localDay.dayOfMonth,
-                    localDay.isEqual(today), localDay.format(monthHalfNameFormatter))
+                    localDay.format(monthHalfNameFormatter))
             dayItems.add(dayItem)
             localDay = localDay.plusDays(1)
         }

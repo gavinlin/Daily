@@ -3,6 +3,7 @@ package com.gavincode.bujo.presentation.ui.widget
 import android.animation.LayoutTransition
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -62,6 +63,7 @@ class WeekCalendar: LinearLayout {
 
         listViewWeeks = findViewById(R.id.list_week)
         listViewWeeks.layoutManager = LinearLayoutManager(context)
+        listViewWeeks.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         listViewWeeks.setHasFixedSize(true)
         listViewWeeks.itemAnimator = null
         listViewWeeks.setSnapEnabled(true)
@@ -85,10 +87,15 @@ class WeekCalendar: LinearLayout {
                 .subscribe {
                     if (it is CalendarEvent) {
                         when (it) {
-                            is CalendarEvent.CalendarScrollEvent -> expandCalendarView()
+                            is CalendarEvent.CalendarScrollEvent -> {
+                                expandCalendarView()
+                            }
                             is CalendarEvent.ListViewTouchEvent -> collapseCalendarView()
                             is CalendarEvent.DayClickedEvent -> {
                                 val dayItem = it.dayItem
+                                scrollToDate(dayItem.date, CalendarManager.weeks,
+                                        CalendarManager.locale)
+                                collapseCalendarView()
                                 updateSelectedDay(dayItem)
                             }
                         }
@@ -171,7 +178,8 @@ class WeekCalendar: LinearLayout {
         }
 
         for (i in 0..(CalendarManager.weeks.size - 1)) {
-            if (day.isEqual(CalendarManager.weeks[i].date)) {
+            if (sameWeek(day, CalendarManager.weeks[i].date,
+                            CalendarManager.locale)) {
                 currentWeekIndex = i
                 break
             }
@@ -179,8 +187,10 @@ class WeekCalendar: LinearLayout {
 
         currentWeekIndex?.let {
             if (it != currentListPosition) {
-                updateItemAtPosition(it)
+                updateItemAtPosition(currentListPosition)
             }
+            currentListPosition = it
+            updateItemAtPosition(it)
         }
     }
 }
