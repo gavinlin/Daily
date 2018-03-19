@@ -9,17 +9,21 @@
 
     <com.gavincode.bujo.presentation.ui.widget.WeekCalendar
         android:id="@+id/week_calendar_view"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/week_calendar_default_height"
         android:layout_width="match_parent"
+        android:background="@drawable/calendar_background"
         app:calendarColor="@android:color/white"
         app:calendarCurrentDayTextColor="@color/calendar_text_current_day"
         app:calendarDayTextColor="@color/colorPrimary"
         app:calendarPastDayTextColor="@android:color/darker_gray"
+        app:elevation="5dp"
+        android:translationZ="5dp"
         />
-    <Button
-        android:id="@+id/daily_button"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/daily_bullet_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/week_calendar_view"
         />
 

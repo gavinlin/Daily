@@ -193,4 +193,5 @@ class WeekCalendar: LinearLayout {
             updateItemAtPosition(it)
         }
     }
+
 }

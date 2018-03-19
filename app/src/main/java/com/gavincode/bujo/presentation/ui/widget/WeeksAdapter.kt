@@ -164,6 +164,8 @@ class WeeksAdapter(val today: LocalDate,
                         monthView.text = dayItem.month
                         dayView.setTypeface(null, Typeface.BOLD)
                         monthView.setTypeface(null, Typeface.BOLD)
+                    } else {
+                        dayView.setTypeface(null, Typeface.NORMAL)
                     }
 
                     if (today.isAfter(dayItem.date) && !today.isEqual(dayItem.date)) {
