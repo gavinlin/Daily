@@ -15,7 +15,7 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragment = DailyPlanFragment.getInstance()
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = this.findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportFragmentManager
                 .beginTransaction()

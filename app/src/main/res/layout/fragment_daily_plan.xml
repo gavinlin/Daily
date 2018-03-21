@@ -26,5 +26,36 @@
         android:layout_height="match_parent"
         android:layout_below="@id/week_calendar_view"
         />
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:translationZ="20dp"
+        >
+        <ImageView
+            android:id="@+id/daily_camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:layout_alignParentEnd="true"
+            />
+        <ImageView
+            android:id="@+id/daily_list_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_list"
+            android:layout_toLeftOf="@id/daily_camera_button"
+            />
+        <TextView
+            android:id="@+id/daily_bullet_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:text="Write a bullet..."
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:paddingStart="20dp"
+            />
+    </RelativeLayout>
 </RelativeLayout>

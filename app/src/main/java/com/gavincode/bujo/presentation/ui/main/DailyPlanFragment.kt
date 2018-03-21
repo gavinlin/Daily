@@ -1,5 +1,6 @@
 package com.gavincode.bujo.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
 import com.gavincode.bujo.presentation.ui.widget.WeekCalendar
 import com.google.firebase.auth.FirebaseAuth
@@ -62,5 +65,11 @@ class DailyPlanFragment: Fragment() {
                 }
             }
         }
+    }
+
+    @OnClick(R.id.daily_bullet_button)
+    fun onBulletClicked() {
+        val intent = Intent(activity, BulletActivity::class.java)
+        activity?.startActivity(intent)
     }
 }

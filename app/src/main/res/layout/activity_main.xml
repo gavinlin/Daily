@@ -16,6 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
         <include layout="@layout/item_day"/>
     </android.support.design.widget.AppBarLayout>
