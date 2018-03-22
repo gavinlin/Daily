@@ -10,5 +10,6 @@ import org.threeten.bp.LocalDate
 class DailyBulletLocalDataStore(val dailyBulletDao: DailyBulletDao): DailyBulletDataStore {
 
     fun getDailyBullets(localDate: LocalDate) {
+
     }
 }

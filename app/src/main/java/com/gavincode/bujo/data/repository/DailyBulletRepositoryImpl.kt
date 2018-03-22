@@ -1,6 +1,6 @@
 package com.gavincode.bujo.data.repository
 
-import com.gavincode.bujo.data.datastore.DailyBulletDataStore
+import com.gavincode.bujo.data.db.DailyBulletDao
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import io.reactivex.Maybe
@@ -13,12 +13,11 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class DailyBulletRepositoryImpl @Inject constructor(dailyBulletDataStore: DailyBulletDataStore): DailyBulletRepository {
-
-    
+class DailyBulletRepositoryImpl @Inject constructor(val dailyBulletDao: DailyBulletDao): DailyBulletRepository {
 
     override fun getDailyBullets(date: LocalDate): Maybe<List<DailyBullet>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        return dailyBulletDao.loadByDate(date.toEpochDay())
+        return Maybe.just(mutableListOf())
     }
 
     override fun getDailyBullet(id: String): Maybe<DailyBullet> {

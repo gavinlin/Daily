@@ -15,7 +15,7 @@ abstract class DbTest {
     @Before
     fun initDb() {
         db = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
-                Journal::class.java).build()
+                Journal::class.java).allowMainThreadQueries().build()
     }
 
     @After

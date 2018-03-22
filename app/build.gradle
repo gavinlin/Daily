@@ -61,10 +61,11 @@ dependencies {
 
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner
-    testImplementation Deps.room_test
+    androidTestImplementation Deps.room_test
     androidTestImplementation Deps.espresso_core
     androidTestImplementation Deps.espresso_contrib
     androidTestImplementation Deps.espresso_intents
+    androidTestImplementation Deps.arch_core_testing
 }
 
 apply plugin: 'com.google.gms.google-services'

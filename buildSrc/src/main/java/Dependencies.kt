@@ -51,6 +51,7 @@ object Deps {
     val room_compiler = "android.arch.persistence.room:compiler:${Versions.room}"
     val room_test = "android.arch.persistence.room:testing:${Versions.room}"
     val room_rxjava2 = "android.arch.persistence.room:rxjava2:${Versions.room}"
+    val arch_core_testing = "android.arch.core:core-testing:${Versions.room}"
 
     val lifecycle = "android.arch.lifecycle:extensions:${Versions.lifecycle}"
     val lifecycle_compiler = "android.arch.lifecycle:compiler:${Versions.lifecycle}"
