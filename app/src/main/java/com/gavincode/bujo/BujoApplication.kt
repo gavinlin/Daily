@@ -17,5 +17,7 @@ class BujoApplication: Application() {
             Timber.plant(Timber.DebugTree())
         }
         AndroidThreeTen.init(this)
+
     }
+
 }

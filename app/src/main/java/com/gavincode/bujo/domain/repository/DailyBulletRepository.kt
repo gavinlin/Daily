@@ -11,6 +11,5 @@ import org.threeten.bp.LocalDate
 interface DailyBulletRepository {
     fun getDailyBullets(date: LocalDate): Maybe<List<DailyBullet>>
     fun getDailyBullet(id: String): Maybe<DailyBullet>
-
     fun updateDailyBullet(dailyBullet: DailyBullet)
 }

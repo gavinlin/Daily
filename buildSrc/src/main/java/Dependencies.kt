@@ -12,7 +12,7 @@ object Versions {
     val timber = "4.6.1"
     val butter_knife = "8.8.1"
     val threetenabp = "1.0.5"
-    val dagger = "2.14.1"
+    val dagger = "2.15"
     val rxjava = "2.1.10"
     val rxandroid = "2.0.2"
     val room = "1.0.0"
@@ -46,6 +46,8 @@ object Deps {
 
     val dagger = "com.google.dagger:dagger:${Versions.dagger}"
     val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+    val dagger_android = "com.google.dagger:dagger-android:${Versions.dagger}"
+    val dagger_android_compiler = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
 
     val room = "android.arch.persistence.room:runtime:${Versions.room}"
     val room_compiler = "android.arch.persistence.room:compiler:${Versions.room}"

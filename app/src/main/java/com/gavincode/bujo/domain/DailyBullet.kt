@@ -11,7 +11,7 @@ data class DailyBullet (
         val id: String,
         val title: String,
         val content: String,
-        val ticked: String,
+        val ticked: Boolean,
         val date: LocalDate,
         val bullet: Int,
         val images: List<String>?)

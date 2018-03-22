@@ -1,7 +1,9 @@
 package com.gavincode.bujo.presentation.di
 
-import android.content.Context
+import android.arch.persistence.room.Room
 import com.gavincode.bujo.BujoApplication
+import com.gavincode.bujo.data.db.DailyBulletDao
+import com.gavincode.bujo.data.db.Journal
 import com.gavincode.bujo.data.repository.DailyBulletRepositoryImpl
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import dagger.Module
@@ -13,16 +15,25 @@ import javax.inject.Singleton
  */
 
 @Module
-class ApplicationModule(val application: BujoApplication) {
+class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideApplicationContext(): Context = application
-
-    @Provides
-    @Singleton
-    fun proivdeDailyBulletRepository(dailyBulletRepository: DailyBulletRepositoryImpl)
+    fun provideDailyBulletRepository(dailyBulletDao: DailyBulletDao)
         : DailyBulletRepository {
-        return dailyBulletRepository
+        return DailyBulletRepositoryImpl(dailyBulletDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoomDatabase(application: BujoApplication): Journal {
+        return Room.databaseBuilder(application,
+                Journal::class.java, "journal.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDailyBulletDao(db: Journal): DailyBulletDao {
+        return db.dailyBulletDao()
     }
 }
