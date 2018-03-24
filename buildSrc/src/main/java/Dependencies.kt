@@ -18,6 +18,8 @@ object Versions {
     val room = "1.0.0"
     val gson = "2.8.2"
     val lifecycle = "1.1.0"
+    val multidex = "1.0.1"
+    val rxkotlin = "2.2.0"
 }
 
 object Deps {
@@ -43,10 +45,12 @@ object Deps {
 
     val rxjava = "io.reactivex.rxjava2:rxjava:${Versions.rxjava}"
     val rxandroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxandroid}"
+    val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxkotlin}"
 
     val dagger = "com.google.dagger:dagger:${Versions.dagger}"
     val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
     val dagger_android = "com.google.dagger:dagger-android:${Versions.dagger}"
+    val dagger_android_support = "com.google.dagger:dagger-android-support:${Versions.dagger}"
     val dagger_android_compiler = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
 
     val room = "android.arch.persistence.room:runtime:${Versions.room}"
@@ -59,6 +63,8 @@ object Deps {
     val lifecycle_compiler = "android.arch.lifecycle:compiler:${Versions.lifecycle}"
 
     val gson = "com.google.code.gson:gson:${Versions.gson}"
+
+    val multidex = "com.android.support:multidex:${Versions.multidex}"
 
     val espresso_core = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     val espresso_contrib = "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"

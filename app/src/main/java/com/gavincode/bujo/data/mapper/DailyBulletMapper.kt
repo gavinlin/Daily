@@ -1,6 +1,7 @@
 package com.gavincode.bujo.data.mapper
 
 import com.gavincode.bujo.data.model.DailyBulletEntity
+import com.gavincode.bujo.data.model.DailyBulletWithAttachment
 import com.gavincode.bujo.domain.DailyBullet
 
 /**
@@ -8,17 +9,22 @@ import com.gavincode.bujo.domain.DailyBullet
  */
 
 object DailyBulletMapper {
-    fun toDailyBullet(dailyBulletEntity: DailyBulletEntity): DailyBullet {
-        return DailyBullet(dailyBulletEntity.uid,
-                dailyBulletEntity.title,
-                dailyBulletEntity.content,
-                dailyBulletEntity.ticked,
-                dailyBulletEntity.date,
-                dailyBulletEntity.bullet,
-                dailyBulletEntity.images)
+    fun toDailyBullet(dailyBulletEntity: DailyBulletWithAttachment): DailyBullet {
+        var dailyBullet: DailyBullet? = null
+        dailyBulletEntity.dailyBullet?.let {
+            dailyBullet = DailyBullet(it.uid,
+                it.title,
+                it.content,
+                it.ticked,
+                it.date,
+                it.bullet,
+                    it.archive,
+                AttachmentMapper.toAttachments(dailyBulletEntity.attachments))
+        }
+        return dailyBullet!!
     }
 
-    fun toDailyBulletList(it: List<DailyBulletEntity>): List<DailyBullet> {
+    fun toDailyBulletList(it: List<DailyBulletWithAttachment>): List<DailyBullet> {
         val list = mutableListOf<DailyBullet>()
         it.forEach({
             list.add(toDailyBullet(it))
@@ -34,7 +40,8 @@ object DailyBulletMapper {
                 dailyBullet.ticked,
                 dailyBullet.date,
                 dailyBullet.bullet,
-                dailyBullet.images
+                dailyBullet.isArchive
+
         )
     }
 }

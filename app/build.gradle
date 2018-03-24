@@ -45,10 +45,12 @@ dependencies {
     implementation Deps.dagger
     kapt Deps.dagger_compiler
     implementation Deps.dagger_android
+    implementation Deps.dagger_android_support
     kapt Deps.dagger_android_compiler
 
     implementation Deps.rxjava
     implementation Deps.rxandroid
+    implementation Deps.rxkotlin
 
     implementation Deps.kotlin_stdlib
 
@@ -60,6 +62,8 @@ dependencies {
     kapt Deps.lifecycle_compiler
 
     implementation Deps.gson
+
+    implementation Deps.multidex
 
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner

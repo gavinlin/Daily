@@ -14,7 +14,7 @@ import javax.inject.Singleton
  * Created by gavinlin on 11/3/18.
  */
 
-@Module
+@Module(includes = [ViewModelModule::class])
 class ApplicationModule {
 
     @Provides

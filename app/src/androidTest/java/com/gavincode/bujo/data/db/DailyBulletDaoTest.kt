@@ -2,6 +2,7 @@ package com.gavincode.bujo.data.db
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.support.test.runner.AndroidJUnit4
+import com.gavincode.bujo.data.model.AttachmentEntity
 import com.gavincode.bujo.data.model.DailyBulletEntity
 import org.junit.Rule
 import org.junit.Test
@@ -28,12 +29,21 @@ class DailyBulletDaoTest: DbTest() {
                 true,
                 LocalDate.now(),
                 0,
-                listOf("/cde", "goodtodo")
+                false
+        )
+        val attachment = AttachmentEntity(
+                UUID.randomUUID().toString(),
+                "/abc/def",
+                "abc",
+                200,
+                "jpeg",
+                dailyBulletEntity.uid
         )
 
         try {
             db.beginTransaction()
             db.dailyBulletDao().insert(dailyBulletEntity)
+            db.attachmentDao().insert(attachment)
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()
@@ -42,9 +52,10 @@ class DailyBulletDaoTest: DbTest() {
         db.dailyBulletDao().loadById(dailyBulletEntity.uid)
                 .test()
                 .assertValue {
-                    it.title == "abc" &&
-                            it.ticked == true &&
-                            it.images?.size == 2
+                    it.dailyBullet?.title == "abc" &&
+                            it.dailyBullet?.ticked == true &&
+                            it.attachments.size == 1 &&
+                            it.attachments[0].id == attachment.id
                 }
 //        val gotBullet = getValue(liveData)
 //        assert(gotBullet.uid == dailyBulletEntity.uid)
@@ -66,7 +77,7 @@ class DailyBulletDaoTest: DbTest() {
                 true,
                 LocalDate.now(),
                 0,
-                listOf("")
+                false
         )
 
         val dailyBulletEntity2 = DailyBulletEntity(
@@ -76,7 +87,9 @@ class DailyBulletDaoTest: DbTest() {
                 true,
                 LocalDate.now(),
                 0,
-                listOf("")
+                false
         )
+
+        
     }
 }

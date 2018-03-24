@@ -1,10 +1,8 @@
 package com.gavincode.bujo.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.gavincode.bujo.data.model.DailyBulletEntity
+import com.gavincode.bujo.data.model.DailyBulletWithAttachment
 import io.reactivex.Maybe
 
 /**
@@ -14,13 +12,17 @@ import io.reactivex.Maybe
 @Dao
 interface DailyBulletDao {
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dailyBulletEntity: DailyBulletEntity)
 
+    @Delete
+    fun deleteDailyBullet(dailyBulletEntity: DailyBulletEntity)
+
     @Query("SELECT * FROM DailyBullet WHERE uid = :id")
-    fun loadById(id: String): Maybe<DailyBulletEntity>
+    fun loadById(id: String): Maybe<DailyBulletWithAttachment>
 
     @Query("SELECT * FROM DailyBullet WHERE date = :epochDay")
-    fun loadByDate(epochDay: Long): Maybe<List<DailyBulletEntity>>
+    fun loadByDate(epochDay: Long): Maybe<List<DailyBulletWithAttachment>>
 
 }
