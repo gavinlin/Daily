@@ -15,4 +15,4 @@ data class DailyBullet (
         val date: LocalDate,
         val bullet: Int,
         val isArchive: Boolean,
-        val images: List<Attachment>?)
+        val attachments: List<Attachment>?)

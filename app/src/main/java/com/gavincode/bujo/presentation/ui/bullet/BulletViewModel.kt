@@ -5,7 +5,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
+import com.gavincode.bujo.presentation.ui.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
@@ -17,13 +20,22 @@ import javax.inject.Inject
  */
 
 class BulletViewModel @Inject constructor(
-        val dailyBulletRepository: DailyBulletRepository
+        private val dailyBulletRepository: DailyBulletRepository
 ): ViewModel() {
     private val dailyBulletLiveData: MutableLiveData<DailyBullet>
             = MutableLiveData()
 
+    private val saveLiveData: SingleLiveEvent<Boolean>
+            = SingleLiveEvent()
+
+    private val disposables = CompositeDisposable()
+
     fun getDailyBullet(): LiveData<DailyBullet> {
         return dailyBulletLiveData
+    }
+
+    fun getSaved(): LiveData<Boolean> {
+        return saveLiveData
     }
 
     fun fetchDailyBullet(id: String) {
@@ -43,11 +55,29 @@ class BulletViewModel @Inject constructor(
                                         arrayListOf())
                         )}
                 )
+                .addTo(disposables)
     }
 
-    fun save() {
+
+    fun exit() {
         dailyBulletLiveData.value?.let {
-            dailyBulletRepository.updateDailyBullet(it)
+            if (it.content.isNotEmpty() || it.title.isNotEmpty()) {
+                dailyBulletRepository.updateDailyBullet(it)
+                saveLiveData.setValue(true)
+            } else {
+                saveLiveData.setValue(false)
+            }
+        } ?: saveLiveData.setValue(false)
+    }
+
+    fun delete() {
+        dailyBulletLiveData.value?.let {
+            dailyBulletRepository.deleteDailyBullet(it)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.dispose()
     }
 }

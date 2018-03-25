@@ -2,6 +2,7 @@ package com.gavincode.bujo.presentation.di
 
 import android.arch.persistence.room.Room
 import com.gavincode.bujo.BujoApplication
+import com.gavincode.bujo.data.db.AttachmentDao
 import com.gavincode.bujo.data.db.DailyBulletDao
 import com.gavincode.bujo.data.db.Journal
 import com.gavincode.bujo.data.repository.DailyBulletRepositoryImpl
@@ -19,9 +20,9 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideDailyBulletRepository(dailyBulletDao: DailyBulletDao)
+    fun provideDailyBulletRepository(dailyBulletDao: DailyBulletDao, attachmentDao: AttachmentDao)
         : DailyBulletRepository {
-        return DailyBulletRepositoryImpl(dailyBulletDao)
+        return DailyBulletRepositoryImpl(dailyBulletDao, attachmentDao)
     }
 
     @Provides
@@ -35,5 +36,11 @@ class ApplicationModule {
     @Singleton
     fun provideDailyBulletDao(db: Journal): DailyBulletDao {
         return db.dailyBulletDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAttachmentDao(db: Journal): AttachmentDao {
+        return db.attachmentDao()
     }
 }

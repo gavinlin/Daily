@@ -90,6 +90,6 @@ class DailyBulletDaoTest: DbTest() {
                 false
         )
 
-        
+
     }
 }

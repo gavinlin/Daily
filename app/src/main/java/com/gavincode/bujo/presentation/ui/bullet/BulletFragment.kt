@@ -3,6 +3,7 @@ package com.gavincode.bujo.presentation.ui.bullet
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatTextView
@@ -38,10 +39,14 @@ class BulletFragment: Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var bulletViewModel: BulletViewModel
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,8 +66,17 @@ class BulletFragment: Fragment() {
                     it?.let { render(it) }
                 })
 
+        bulletViewModel.getSaved()
+                .observe(this, Observer {
+                    it?.let { onSaved(it) }
+                })
+
         bulletViewModel
                 .fetchDailyBullet(arguments?.getString(BULLET_ID) ?: "")
+    }
+
+    private fun onSaved(shouldSave: Boolean) {
+        activity?.finish()
     }
 
     private fun render(dailyBullet: DailyBullet) {
@@ -79,7 +93,7 @@ class BulletFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when(it.itemId) {
-                android.R.id.home -> activity?.finish()
+                android.R.id.home -> bulletViewModel.exit()
                 else -> {}
             }
         }

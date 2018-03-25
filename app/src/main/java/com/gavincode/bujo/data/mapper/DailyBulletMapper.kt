@@ -41,7 +41,6 @@ object DailyBulletMapper {
                 dailyBullet.date,
                 dailyBullet.bullet,
                 dailyBullet.isArchive
-
         )
     }
 }

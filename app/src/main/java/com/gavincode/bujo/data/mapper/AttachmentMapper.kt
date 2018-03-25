@@ -25,4 +25,15 @@ object AttachmentMapper {
         }
         return list
     }
+
+    fun toAttachmentEntity(attachment: Attachment, parentId: String): AttachmentEntity {
+        return AttachmentEntity(
+                attachment.id,
+                attachment.uriPath,
+                attachment.name,
+                attachment.size,
+                attachment.mimeType,
+                parentId
+        )
+    }
 }
