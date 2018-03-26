@@ -16,7 +16,6 @@ class WeekListView: RecyclerView {
     var mUserScrolling: Boolean = false
     var mScrolling: Boolean = false
 
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet)
@@ -132,5 +131,4 @@ class WeekListView: RecyclerView {
 
         return childCenterY - centerY
     }
-
 }

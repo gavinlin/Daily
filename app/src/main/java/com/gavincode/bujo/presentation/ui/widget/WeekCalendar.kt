@@ -167,8 +167,6 @@ class WeekCalendar: LinearLayout {
 
     private fun scrollToPosition(targetPosition: Int) {
         listViewWeeks.layoutManager.scrollToPosition(targetPosition)
-//        listViewWeeks.layoutManager.smoothScrollToPosition(listViewWeeks, RecyclerView.State(),
-//                targetPosition)
     }
 
     private fun updateItemAtPosition(position: Int) {
