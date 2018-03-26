@@ -150,7 +150,10 @@ class WeeksAdapter(val today: LocalDate,
                     val monthView: TextView = cellItem.findViewById(R.id.view_day_month_label)
                     val circleView: View = cellItem.findViewById(R.id.view_day_circle_selected)
 
-                    cellItem.setOnClickListener { CalendarBus.send(CalendarEvent.DayClickedEvent(dayItem)) }
+                    cellItem.setOnClickListener {
+                        CalendarManager.setCurrentDay(dayItem.date)
+                        CalendarBus.send(CalendarEvent.DayClickedEvent(dayItem))
+                    }
 
                     monthView.visibility = View.GONE
                     dayView.setTextColor(dayTextColor)

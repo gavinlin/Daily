@@ -1,22 +1,21 @@
 package com.gavincode.bujo.presentation.ui.main
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
-import com.gavincode.bujo.presentation.ui.widget.WeekCalendar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.gavincode.bujo.presentation.util.duration
+import kotlinx.android.synthetic.main.fragment_daily_plan.*
 import org.threeten.bp.LocalDate
-import timber.log.Timber
 
 /**
  * Created by gavinlin on 26/2/18.
@@ -30,9 +29,6 @@ class DailyPlanFragment: Fragment() {
         }
     }
 
-    @BindView(R.id.week_calendar_view)
-    lateinit var calendarView: WeekCalendar
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val calendarManager = CalendarManager
@@ -44,27 +40,32 @@ class DailyPlanFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
         ButterKnife.bind(this, view)
-        calendarView.init()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = FirebaseFirestore.getInstance()
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            db.collection("users").document(it.uid).collection("tasks")
-                    .get().addOnCompleteListener {
-                if (it.isSuccessful) {
-                    for (doc in it.result) {
-                        Timber.d("${doc.id} => ${doc.data["content"]}")
-                    }
-                } else {
-                    it.exception?.printStackTrace()
-                }
+        week_calendar_view.init()
+
+        daily_bullet_view.adapter = DailyPlanPagerAdapter(CalendarManager.days[0].date,
+                CalendarManager.days.last().date, activity!!.supportFragmentManager)
+        daily_bullet_view.currentItem =
+                Math.abs(CalendarManager.today.duration(CalendarManager.days.first().date)).toInt()
+        daily_bullet_view.addOnPageChangeListener(object :ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
             }
-        }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                CalendarManager.setCurrentDay(CalendarManager.days.first().date.plusDays(position.toLong()))
+            }
+        })
+        CalendarManager.currentDayLiveData.observe(this, Observer {
+            (activity as MainActivity).supportActionBar?.title = it!!.month.name
+            daily_bullet_view.setCurrentItem(Math.abs(it!!.duration(CalendarManager.days.first().date)).toInt(), true)
+        })
     }
 
     @OnClick(R.id.daily_bullet_button)

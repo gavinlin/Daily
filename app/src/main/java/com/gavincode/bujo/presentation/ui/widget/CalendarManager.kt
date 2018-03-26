@@ -1,5 +1,6 @@
 package com.gavincode.bujo.presentation.ui.widget
 
+import android.arch.lifecycle.MutableLiveData
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -20,13 +21,21 @@ object CalendarManager {
     val weekdayFormatter = DateTimeFormatter.ofPattern("EEEEE", locale)
     private val monthHalfNameFormatter = DateTimeFormatter.ofPattern("MMM", locale)
 
+    val currentDayLiveData = MutableLiveData<LocalDate>()
+
+    fun setCurrentDay(day: LocalDate) {
+        currentDayLiveData.postValue(day)
+    }
+
     fun buildCal(minDate: LocalDate, maxDate: LocalDate) {
+        currentDayLiveData.postValue(today)
         val maxMonth = maxDate.monthValue
         val maxYear = maxDate.year
 
         var weekCounter = minDate
         var currentMonth = weekCounter.monthValue
         var currentYear = weekCounter.year
+
 
         while ((currentMonth <= maxMonth || currentYear < maxYear)
                 && currentYear < maxYear + 1) {

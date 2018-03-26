@@ -11,7 +11,11 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.widget.CalendarManager.locale
 import com.gavincode.bujo.presentation.util.CalendarBus
+import com.gavincode.bujo.presentation.util.duration
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import org.threeten.bp.LocalDate
 import org.threeten.bp.temporal.WeekFields
 import java.util.*
@@ -27,6 +31,7 @@ class WeekCalendar: LinearLayout {
     var selectedDay: DayItem? = null
 
     private var currentListPosition = 0
+    private val disposables = CompositeDisposable()
 
     lateinit var listViewWeeks: WeekListView
         private set
@@ -87,20 +92,33 @@ class WeekCalendar: LinearLayout {
                 .subscribe {
                     if (it is CalendarEvent) {
                         when (it) {
-                            is CalendarEvent.CalendarScrollEvent -> {
-                                expandCalendarView()
-                            }
+                            is CalendarEvent.CalendarScrollEvent -> expandCalendarView()
                             is CalendarEvent.ListViewTouchEvent -> collapseCalendarView()
-                            is CalendarEvent.DayClickedEvent -> {
-                                val dayItem = it.dayItem
-                                scrollToDate(dayItem.date, CalendarManager.weeks,
-                                        CalendarManager.locale)
-                                collapseCalendarView()
-                                updateSelectedDay(dayItem)
-                            }
+                            is CalendarEvent.DayClickedEvent -> CalendarManager.setCurrentDay(it.dayItem.date)
                         }
                     }
                 }
+                .addTo(disposables)
+
+        CalendarManager.currentDayLiveData.observeForever(android.arch.lifecycle.Observer {
+            it?.let {
+                handleDayChanged(it)
+            }
+        })
+    }
+
+    override fun onDetachedFromWindow() {
+        disposables.dispose()
+        super.onDetachedFromWindow()
+    }
+
+    private fun handleDayChanged(day: LocalDate) {
+        scrollToDate(day, CalendarManager.weeks,
+                CalendarManager.locale)
+        collapseCalendarView()
+
+        val dayItem = CalendarManager.days[Math.abs(CalendarManager.days.first().date.duration(day)).toInt()]
+        updateSelectedDay(dayItem)
     }
 
     fun init() {
@@ -113,30 +131,17 @@ class WeekCalendar: LinearLayout {
         scrollToDate(today, weeks, locale)
     }
 
-    fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
-        var curretnWeekIndex: Int? = null
-
-        for (i in 0..(weeks.size - 1)) {
-            if (sameWeek(date , weeks[i].date, locale)) {
-                curretnWeekIndex = i
-                break
-            }
-        }
-        curretnWeekIndex?.let {
+    private fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
+        val currentWeekIndex = getWeekIndexFromDay(date)
+        if (currentWeekIndex != -1 && currentWeekIndex != currentListPosition) {
             listViewWeeks.post({
-                scrollToPosition(it)
+                scrollToPosition(currentWeekIndex)
             })
         }
     }
 
     override fun setBackgroundColor(color: Int) {
         listViewWeeks.setBackgroundColor(color)
-    }
-
-    private fun sameWeek(thisDay: LocalDate, otherDay: LocalDate, locale: Locale)
-            : Boolean{
-        val temporalField = WeekFields.of(locale).weekOfWeekBasedYear()
-        return thisDay.get(temporalField) == otherDay.get(temporalField)
     }
 
     private fun setUpAdapter(today: LocalDate, weeks: List<WeekItem>,
@@ -162,6 +167,8 @@ class WeekCalendar: LinearLayout {
 
     private fun scrollToPosition(targetPosition: Int) {
         listViewWeeks.layoutManager.scrollToPosition(targetPosition)
+//        listViewWeeks.layoutManager.smoothScrollToPosition(listViewWeeks, RecyclerView.State(),
+//                targetPosition)
     }
 
     private fun updateItemAtPosition(position: Int) {
@@ -177,21 +184,36 @@ class WeekCalendar: LinearLayout {
             selectedDay = dayItem
         }
 
-        for (i in 0..(CalendarManager.weeks.size - 1)) {
-            if (sameWeek(day, CalendarManager.weeks[i].date,
-                            CalendarManager.locale)) {
-                currentWeekIndex = i
-                break
-            }
-        }
+        currentWeekIndex = getWeekIndexFromDay(day)
 
-        currentWeekIndex?.let {
-            if (it != currentListPosition) {
+        if (currentWeekIndex != -1) {
+            if (currentWeekIndex != currentListPosition) {
                 updateItemAtPosition(currentListPosition)
             }
-            currentListPosition = it
-            updateItemAtPosition(it)
+            currentListPosition = currentWeekIndex
+            updateItemAtPosition(currentWeekIndex)
         }
+    }
+
+    private fun getWeekIndexFromDay(day: LocalDate): Int {
+        var index = -1
+        var left = 0
+        var right = CalendarManager.weeks.lastIndex
+        val temporalField = WeekFields.of(locale).weekOfWeekBasedYear()
+        val target = day.get(temporalField)
+
+        while (left < right) {
+            val mid = left + (right - left) / 2
+            val currentWeek = CalendarManager.weeks[mid].date.get(temporalField)
+            if (target == currentWeek) {
+                return mid
+            } else if (target < currentWeek) {
+                right = mid
+            } else {
+                left = mid
+            }
+        }
+        return index
     }
 
 }
