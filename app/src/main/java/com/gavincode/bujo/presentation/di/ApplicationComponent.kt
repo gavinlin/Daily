@@ -1,7 +1,6 @@
 package com.gavincode.bujo.presentation.di
 
 import com.gavincode.bujo.BujoApplication
-import com.gavincode.bujo.presentation.ui.bullet.BulletActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -15,7 +14,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         AndroidInjectionModule::class,
         ApplicationModule::class,
-        BulletActivityModule::class
+        ActivityModule::class
         ))
 interface ApplicationComponent {
 

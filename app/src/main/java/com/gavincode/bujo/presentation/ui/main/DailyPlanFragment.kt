@@ -1,6 +1,7 @@
 package com.gavincode.bujo.presentation.ui.main
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,6 +15,7 @@ import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
 import com.gavincode.bujo.presentation.util.duration
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_daily_plan.*
 import org.threeten.bp.LocalDate
 
@@ -24,9 +26,13 @@ import org.threeten.bp.LocalDate
 class DailyPlanFragment: Fragment() {
     companion object {
         fun getInstance(): DailyPlanFragment {
-            val fragment = DailyPlanFragment()
-            return fragment
+            return DailyPlanFragment()
         }
+    }
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +45,9 @@ class DailyPlanFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
-        ButterKnife.bind(this, view)
+        activity?.let {
+            ButterKnife.bind(this, view)
+        }
         return view
     }
 

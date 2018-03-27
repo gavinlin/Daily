@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +14,7 @@ import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_bullet.*
+import kotlinx.android.synthetic.main.view_bullet_content.*
 import javax.inject.Inject
 
 /**
@@ -57,10 +57,10 @@ class BulletFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         bulletViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(BulletViewModel::class.java)
-        bindViewHolder()
+        bindViewModel()
     }
 
-    private fun bindViewHolder() {
+    private fun bindViewModel() {
         bulletViewModel.getDailyBullet()
                 .observe(this, Observer{
                     it?.let { render(it) }
@@ -73,6 +73,8 @@ class BulletFragment: Fragment() {
 
         bulletViewModel
                 .fetchDailyBullet(arguments?.getString(BULLET_ID) ?: "")
+
+
     }
 
     private fun onSaved(shouldSave: Boolean) {
@@ -84,7 +86,6 @@ class BulletFragment: Fragment() {
         if (dailyBullet.ticked) {
 
         } else {
-            val contentView = AppCompatTextView(context, null)
             bullet_content_container.layoutResource = R.layout.view_bullet_content
             bullet_content_container.inflate()
         }
@@ -93,7 +94,12 @@ class BulletFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when(it.itemId) {
-                android.R.id.home -> bulletViewModel.exit()
+                android.R.id.home -> {
+                    bulletViewModel.getDailyBullet().value?.title = bullet_title.text.toString()
+                    bulletViewModel.getDailyBullet().value?.content = bullet_content_edit_text.text.toString()
+
+                    bulletViewModel.exit()
+                }
                 else -> {}
             }
         }

@@ -3,6 +3,7 @@ package com.gavincode.bujo.presentation.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.gavincode.bujo.presentation.ui.bullet.BulletViewModel
+import com.gavincode.bujo.presentation.ui.main.DailyListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,6 +19,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BulletViewModel::class)
     abstract fun bindBulletViewModel(bulletViewModel: BulletViewModel)
+            : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DailyListViewModel::class)
+    abstract fun bindDailyListViewModel(dailyListViewModel: DailyListViewModel)
             : ViewModel
 
     @Binds

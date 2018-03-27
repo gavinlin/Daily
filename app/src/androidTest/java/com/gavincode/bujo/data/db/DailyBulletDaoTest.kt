@@ -90,6 +90,19 @@ class DailyBulletDaoTest: DbTest() {
                 false
         )
 
+        try {
+            db.beginTransaction()
+            db.dailyBulletDao().insert(dailyBulletEntity)
+            db.dailyBulletDao().insert(dailyBulletEntity2)
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
 
+        db.dailyBulletDao().loadByDate(LocalDate.now().toEpochDay())
+                .test()
+                .assertValue {
+                    it.size == 2
+                }
     }
 }

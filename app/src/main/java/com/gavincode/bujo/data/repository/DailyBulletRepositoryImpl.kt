@@ -2,6 +2,7 @@ package com.gavincode.bujo.data.repository
 
 import com.gavincode.bujo.data.db.AttachmentDao
 import com.gavincode.bujo.data.db.DailyBulletDao
+import com.gavincode.bujo.data.db.Journal
 import com.gavincode.bujo.data.mapper.AttachmentMapper
 import com.gavincode.bujo.data.mapper.DailyBulletMapper
 import com.gavincode.bujo.domain.Attachment
@@ -17,8 +18,9 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class DailyBulletRepositoryImpl @Inject constructor(private val dailyBulletDao: DailyBulletDao,
-                                                    private val attachmentDao: AttachmentDao): DailyBulletRepository {
+class DailyBulletRepositoryImpl @Inject constructor(
+        private val db: Journal,private val dailyBulletDao: DailyBulletDao,
+        private val attachmentDao: AttachmentDao): DailyBulletRepository {
 
     override fun getDailyBullets(date: LocalDate): Maybe<List<DailyBullet>> {
         return dailyBulletDao.loadByDate(date.toEpochDay())
@@ -37,17 +39,35 @@ class DailyBulletRepositoryImpl @Inject constructor(private val dailyBulletDao: 
                 updateAttachment(it, dailyBullet.id)
             }
         }
-        dailyBulletDao.insert(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
+        try {
+            db.beginTransaction()
+            dailyBulletDao.insert(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
     }
 
     override fun updateAttachment(attachment: Attachment, parentId: String) {
-        attachmentDao.insert(AttachmentMapper.toAttachmentEntity(attachment, parentId))
+        try {
+            db.beginTransaction()
+            attachmentDao.insert(AttachmentMapper.toAttachmentEntity(attachment, parentId))
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
     }
 
     override fun deleteDailyBullet(dailyBullet: DailyBullet) {
-        dailyBullet.attachments?.forEach {
-            attachmentDao.delete(AttachmentMapper.toAttachmentEntity(it, dailyBullet.id))
+        try {
+            db.beginTransaction()
+            dailyBullet.attachments?.forEach {
+                attachmentDao.delete(AttachmentMapper.toAttachmentEntity(it, dailyBullet.id))
+            }
+            dailyBulletDao.deleteDailyBullet(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
         }
-        dailyBulletDao.deleteDailyBullet(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
     }
 }

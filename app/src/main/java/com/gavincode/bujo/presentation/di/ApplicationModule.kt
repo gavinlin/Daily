@@ -20,9 +20,9 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideDailyBulletRepository(dailyBulletDao: DailyBulletDao, attachmentDao: AttachmentDao)
+    fun provideDailyBulletRepository(db: Journal, dailyBulletDao: DailyBulletDao, attachmentDao: AttachmentDao)
         : DailyBulletRepository {
-        return DailyBulletRepositoryImpl(dailyBulletDao, attachmentDao)
+        return DailyBulletRepositoryImpl(db, dailyBulletDao, attachmentDao)
     }
 
     @Provides

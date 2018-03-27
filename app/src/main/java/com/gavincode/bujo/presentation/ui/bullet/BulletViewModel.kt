@@ -3,11 +3,13 @@ package com.gavincode.bujo.presentation.ui.bullet
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.WorkerThread
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import com.gavincode.bujo.presentation.ui.SingleLiveEvent
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Function
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -41,7 +43,7 @@ class BulletViewModel @Inject constructor(
     fun fetchDailyBullet(id: String) {
         dailyBulletRepository.getDailyBullet(id)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .subscribeBy(
                         onSuccess = { dailyBulletLiveData.postValue(it) },
                         onComplete = { dailyBulletLiveData.postValue(
@@ -59,15 +61,23 @@ class BulletViewModel @Inject constructor(
     }
 
 
+    @WorkerThread
     fun exit() {
-        dailyBulletLiveData.value?.let {
-            if (it.content.isNotEmpty() || it.title.isNotEmpty()) {
-                dailyBulletRepository.updateDailyBullet(it)
-                saveLiveData.setValue(true)
-            } else {
-                saveLiveData.setValue(false)
-            }
-        } ?: saveLiveData.setValue(false)
+        Flowable.just(true)
+                .observeOn(Schedulers.io())
+                .map(Function<Boolean, Boolean> {
+                    dailyBulletLiveData.value?.let {
+                        if (it.content.isNotEmpty() || it.title.isNotEmpty()) {
+                            dailyBulletRepository.updateDailyBullet(it)
+                            saveLiveData.postValue(true)
+                        } else {
+                            saveLiveData.postValue(false)
+                        }
+                    } ?: saveLiveData.postValue(false)
+                    return@Function true
+                })
+                .subscribe()
+                .addTo(disposables)
     }
 
     fun delete() {

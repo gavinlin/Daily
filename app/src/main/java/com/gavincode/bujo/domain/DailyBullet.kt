@@ -9,10 +9,10 @@ import org.threeten.bp.LocalDate
 
 data class DailyBullet (
         val id: String,
-        val title: String,
-        val content: String,
-        val ticked: Boolean,
-        val date: LocalDate,
-        val bullet: Int,
-        val isArchive: Boolean,
-        val attachments: List<Attachment>?)
+        var title: String,
+        var content: String,
+        var ticked: Boolean,
+        var date: LocalDate,
+        var bullet: Int,
+        var isArchive: Boolean,
+        var attachments: List<Attachment>?)
