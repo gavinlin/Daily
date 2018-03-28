@@ -100,12 +100,14 @@ class WeekCalendar: LinearLayout {
                 }
                 .addTo(disposables)
 
-        CalendarManager.currentDayLiveData.observeForever(android.arch.lifecycle.Observer {
+        CalendarManager.currentDayLiveData.observeForever({
             it?.let {
                 handleDayChanged(it)
             }
         })
     }
+
+
 
     override fun onDetachedFromWindow() {
         disposables.dispose()

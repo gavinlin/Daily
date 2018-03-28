@@ -39,7 +39,7 @@ class DailyListViewModel @Inject constructor(
                 .subscribeBy(
                         onSuccess = {
                             when (it.size) {
-                                0    -> uiModelLiveData.postValue(DailyListUiModel.Empty())
+                                0    -> uiModelLiveData.postValue(DailyListUiModel.Empty ())
                                 else -> uiModelLiveData.postValue(DailyListUiModel.DailyBullets(it))
                             }
                         },

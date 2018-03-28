@@ -25,8 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/week_calendar_view"
+        android:layout_above="@id/daily_bottom_layout"
         />
     <RelativeLayout
+        android:id="@+id/daily_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
