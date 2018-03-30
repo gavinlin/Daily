@@ -2,13 +2,12 @@ package com.gavincode.bujo.presentation.ui.bullet
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.support.annotation.WorkerThread
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
+import com.gavincode.bujo.presentation.ui.BaseViewModel
 import com.gavincode.bujo.presentation.ui.SingleLiveEvent
 import io.reactivex.Flowable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Function
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,14 +22,12 @@ import javax.inject.Inject
 
 class BulletViewModel @Inject constructor(
         private val dailyBulletRepository: DailyBulletRepository
-): ViewModel() {
+): BaseViewModel() {
     private val dailyBulletLiveData: MutableLiveData<DailyBullet>
             = MutableLiveData()
 
     private val saveLiveData: SingleLiveEvent<Boolean>
             = SingleLiveEvent()
-
-    private val disposables = CompositeDisposable()
 
     fun getDailyBullet(): LiveData<DailyBullet> {
         return dailyBulletLiveData
@@ -84,10 +81,5 @@ class BulletViewModel @Inject constructor(
         dailyBulletLiveData.value?.let {
             dailyBulletRepository.deleteDailyBullet(it)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.dispose()
     }
 }

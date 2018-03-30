@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,11 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
+import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_daily_plan_list.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,7 +25,7 @@ import javax.inject.Inject
  */
 
 
-class DailyListFragment: Fragment() {
+class DailyListFragment: Fragment(), DailyListClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -64,6 +65,7 @@ class DailyListFragment: Fragment() {
                         .get(DailyListViewModel::class.java)
         daily_list_recycler_view.layoutManager = LinearLayoutManager(context)
         daily_list_recycler_view.adapter = DailyListAdapter()
+        (daily_list_recycler_view.adapter as DailyListAdapter).dailyListOnClickListener = this
         daily_plan_list_date_view.visibility = View.VISIBLE
         daily_list_recycler_view.visibility = View.GONE
         swipe_refresh_view.setOnRefreshListener {
@@ -94,30 +96,33 @@ class DailyListFragment: Fragment() {
     }
 
     private fun onIdle() {
-        Timber.i("onIdle ${this}")
         swipe_refresh_view.isRefreshing = false
     }
 
     private fun onLoading() {
-        Timber.i("onLoading ${this}")
         if (swipe_refresh_view.isRefreshing) return
         swipe_refresh_view.isRefreshing = true
     }
 
     private fun onEmpty() {
-        Timber.i("onEmpty ${this}")
         swipe_refresh_view.isRefreshing = false
         daily_plan_list_date_view.visibility = View.VISIBLE
         daily_list_recycler_view.visibility = View.GONE
     }
 
     private fun onDailyBullets(list: List<DailyBullet>) {
-        Timber.i("onDailyBullet ${this}")
         swipe_refresh_view.isRefreshing = false
         daily_plan_list_date_view.visibility = View.GONE
         daily_list_recycler_view.visibility = View.VISIBLE
 
         (daily_list_recycler_view.adapter as DailyListAdapter)
                 .updateList(list)
+    }
+
+    // DailyListClickListener
+    override fun onClick(bulletId: String) {
+        val intent = Intent(activity, BulletActivity::class.java)
+        intent.putExtra("bulletId", bulletId)
+        activity?.startActivity(intent)
     }
 }

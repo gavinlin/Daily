@@ -2,11 +2,10 @@ package com.gavincode.bujo.presentation.ui.main
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import com.firebase.ui.auth.viewmodel.SingleLiveEvent
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
+import com.gavincode.bujo.presentation.ui.BaseViewModel
 import com.gavincode.bujo.presentation.util.Message
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -19,10 +18,9 @@ import javax.inject.Inject
 
 class DailyListViewModel @Inject constructor(
         private val dailyBulletRepository: DailyBulletRepository
-): ViewModel() {
+): BaseViewModel() {
     private val messageLiveData =  SingleLiveEvent<Message>()
     private val uiModelLiveData = MutableLiveData<DailyListUiModel>()
-    private val disposables = CompositeDisposable()
 
     fun bindMessage(): LiveData<Message> = messageLiveData
     fun bindUiModel(): LiveData<DailyListUiModel> = uiModelLiveData
@@ -58,10 +56,5 @@ class DailyListViewModel @Inject constructor(
     private fun handleError(throwable: Throwable) {
         messageLiveData.postValue(Message(Message.Level.ERROR,
                 "", throwable.message ?: ""))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.dispose()
     }
 }

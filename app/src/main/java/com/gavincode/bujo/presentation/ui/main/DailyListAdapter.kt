@@ -13,10 +13,13 @@ import com.gavincode.bujo.domain.DailyBullet
 class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolder>() {
 
     var list: MutableList<DailyBullet> = mutableListOf()
+    var dailyListOnClickListener: DailyListClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return DailyListViewHolder(inflater.inflate(R.layout.list_item_daily_bullet, parent, false))
+        val viewHolder =  DailyListViewHolder(inflater.inflate(R.layout.list_item_daily_bullet, parent, false))
+        viewHolder.itemView.setOnClickListener { dailyListOnClickListener?.onClick(list[viewHolder.adapterPosition].id) }
+        return viewHolder
     }
 
     override fun getItemCount(): Int {

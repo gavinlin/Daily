@@ -4,12 +4,10 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import dagger.android.support.AndroidSupportInjection
@@ -58,6 +56,27 @@ class BulletFragment: Fragment() {
         bulletViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(BulletViewModel::class.java)
         bindViewModel()
+        prepareView()
+    }
+
+    private fun prepareView() {
+        bullet_scroll_view.apply {
+            descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+
+            setOnTouchListener { v, _->
+                v.requestFocusFromTouch()
+                false
+            }
+        }
+    }
+
+    private fun setContentViewTouchDelegate() {
+        bullet_content_parent_layout.post {
+            val actualArea = Rect()
+            bullet_content_parent_layout.getHitRect(actualArea)
+            val touchDelegate = TouchDelegate(actualArea, bullet_content_edit_text)
+            bullet_content_parent_layout.touchDelegate = touchDelegate
+        }
     }
 
     private fun bindViewModel() {
@@ -88,6 +107,11 @@ class BulletFragment: Fragment() {
         } else {
             bullet_content_container.layoutResource = R.layout.view_bullet_content
             bullet_content_container.inflate()
+            bullet_content_edit_text.setText(dailyBullet.content)
+            if (dailyBullet.content.isNullOrBlank()) {
+                bullet_content_edit_text.requestFocus()
+            }
+//            setContentViewTouchDelegate()
         }
     }
 

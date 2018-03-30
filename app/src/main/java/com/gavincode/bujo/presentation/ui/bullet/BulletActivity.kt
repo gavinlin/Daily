@@ -27,7 +27,7 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
         setUpActionBar()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.bullet_container, BulletFragment.newInstance(""))
+                .replace(R.id.bullet_container, BulletFragment.newInstance(intent.getStringExtra("bulletId") ?: ""))
                 .commit()
     }
 
