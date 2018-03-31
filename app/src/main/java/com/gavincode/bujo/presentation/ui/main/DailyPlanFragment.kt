@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
 import com.gavincode.bujo.presentation.util.duration
@@ -79,6 +80,7 @@ class DailyPlanFragment: Fragment() {
     @OnClick(R.id.daily_bullet_button)
     fun onBulletClicked() {
         val intent = Intent(activity, BulletActivity::class.java)
+        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
         activity?.startActivity(intent)
     }
 }

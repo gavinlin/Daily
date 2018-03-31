@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
+import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_daily_plan_list.*
@@ -122,7 +123,7 @@ class DailyListFragment: Fragment(), DailyListClickListener {
     // DailyListClickListener
     override fun onClick(bulletId: String) {
         val intent = Intent(activity, BulletActivity::class.java)
-        intent.putExtra("bulletId", bulletId)
+        intent.putExtra(Navigator.ARG_BULLET_ID, bulletId)
         activity?.startActivity(intent)
     }
 }

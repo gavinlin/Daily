@@ -43,20 +43,24 @@ class BulletViewModel @Inject constructor(
                 .observeOn(Schedulers.io())
                 .subscribeBy(
                         onSuccess = { dailyBulletLiveData.postValue(it) },
-                        onComplete = { dailyBulletLiveData.postValue(
-                                DailyBullet(UUID.randomUUID().toString(),
-                                        "",
-                                        "",
-                                        false,
-                                        LocalDate.now(),
-                                        0,
-                                        false,
-                                        arrayListOf())
-                        )}
+                        onComplete = { newBulletInterval(null) }
                 )
                 .addTo(disposables)
     }
 
+    private fun newBulletInterval(date: Long?) {
+        val localDate = if (date == null) LocalDate.now() else LocalDate.ofEpochDay(date)
+        dailyBulletLiveData.postValue(
+                                DailyBullet(UUID.randomUUID().toString(),
+                                        "",
+                                        "",
+                                        false,
+                                        localDate,
+                                        0,
+                                        false,
+                                        arrayListOf())
+                        )
+    }
 
     @WorkerThread
     fun exit() {
@@ -81,5 +85,9 @@ class BulletViewModel @Inject constructor(
         dailyBulletLiveData.value?.let {
             dailyBulletRepository.deleteDailyBullet(it)
         }
+    }
+
+    fun newDailyBullet(long: Long?) {
+        newBulletInterval(long)
     }
 }

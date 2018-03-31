@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.Navigator
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -27,7 +28,8 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
         setUpActionBar()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.bullet_container, BulletFragment.newInstance(intent.getStringExtra("bulletId") ?: ""))
+                .replace(R.id.bullet_container, BulletFragment.newInstance(intent.getStringExtra(Navigator.ARG_BULLET_ID) ?: "",
+                        intent.getLongExtra(Navigator.ARG_DATE_LONG, 0)))
                 .commit()
     }
 

@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.*
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
+import com.gavincode.bujo.presentation.ui.Navigator
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_bullet.*
 import kotlinx.android.synthetic.main.view_bullet_content.*
@@ -22,11 +23,11 @@ import javax.inject.Inject
 class BulletFragment: Fragment() {
 
     companion object {
-        private const val BULLET_ID = "dailyBulletId"
 
-        fun newInstance(bulletId: String): Fragment {
+        fun newInstance(bulletId: String, date: Long): Fragment {
             val bundle = Bundle()
-            bundle.putString(BULLET_ID, bulletId)
+            bundle.putString(Navigator.ARG_BULLET_ID, bulletId)
+            bundle.putLong(Navigator.ARG_DATE_LONG, date)
             val fragment = BulletFragment()
             fragment.arguments = bundle
             return fragment
@@ -90,10 +91,14 @@ class BulletFragment: Fragment() {
                     it?.let { onSaved(it) }
                 })
 
-        bulletViewModel
-                .fetchDailyBullet(arguments?.getString(BULLET_ID) ?: "")
-
-
+        arguments?.getString(Navigator.ARG_BULLET_ID)?.apply {
+            if (this.isNullOrBlank()) {
+                bulletViewModel.newDailyBullet(arguments?.getLong(Navigator.ARG_DATE_LONG))
+            } else {
+                bulletViewModel
+                        .fetchDailyBullet(arguments?.getString(Navigator.ARG_BULLET_ID) ?: "")
+            }
+        }
     }
 
     private fun onSaved(shouldSave: Boolean) {
