@@ -11,13 +11,12 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.gavincode.bujo.R
-import com.gavincode.bujo.presentation.ui.widget.CalendarManager.locale
 import com.gavincode.bujo.presentation.util.CalendarBus
 import com.gavincode.bujo.presentation.util.duration
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import org.threeten.bp.LocalDate
-import org.threeten.bp.temporal.WeekFields
+import org.threeten.bp.temporal.ChronoUnit
 import java.util.*
 
 /**
@@ -196,24 +195,7 @@ class WeekCalendar: LinearLayout {
     }
 
     private fun getWeekIndexFromDay(day: LocalDate): Int {
-        var index = -1
-        var left = 0
-        var right = CalendarManager.weeks.lastIndex
-        val temporalField = WeekFields.of(locale).weekOfWeekBasedYear()
-        val target = day.get(temporalField)
-
-        while (left < right) {
-            val mid = left + (right - left) / 2
-            val currentWeek = CalendarManager.weeks[mid].date.get(temporalField)
-            if (target == currentWeek) {
-                return mid
-            } else if (target < currentWeek) {
-                right = mid
-            } else {
-                left = mid
-            }
-        }
-        return index
+        return ChronoUnit.WEEKS.between(CalendarManager.days.first().date, day).toInt()
     }
 
 }
