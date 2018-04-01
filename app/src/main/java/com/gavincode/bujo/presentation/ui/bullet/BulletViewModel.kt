@@ -2,13 +2,11 @@ package com.gavincode.bujo.presentation.ui.bullet
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.WorkerThread
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import com.gavincode.bujo.presentation.ui.BaseViewModel
-import com.gavincode.bujo.presentation.ui.SingleLiveEvent
-import io.reactivex.Flowable
-import io.reactivex.functions.Function
+import io.reactivex.Maybe
+import io.reactivex.MaybeOnSubscribe
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -26,16 +24,14 @@ class BulletViewModel @Inject constructor(
     private val dailyBulletLiveData: MutableLiveData<DailyBullet>
             = MutableLiveData()
 
-    private val saveLiveData: SingleLiveEvent<Boolean>
-            = SingleLiveEvent()
+    private val bulletStateLiveData: MutableLiveData<BulletModel>
+            = MutableLiveData()
 
     fun getDailyBullet(): LiveData<DailyBullet> {
         return dailyBulletLiveData
     }
 
-    fun getSaved(): LiveData<Boolean> {
-        return saveLiveData
-    }
+    fun getDailyBulletState(): LiveData<BulletModel> = bulletStateLiveData
 
     fun fetchDailyBullet(id: String) {
         dailyBulletRepository.getDailyBullet(id)
@@ -62,28 +58,32 @@ class BulletViewModel @Inject constructor(
                         )
     }
 
-    @WorkerThread
     fun exit() {
-        Flowable.just(true)
-                .observeOn(Schedulers.io())
-                .map(Function<Boolean, Boolean> {
-                    dailyBulletLiveData.value?.let {
-                        if (it.content.isNotEmpty() || it.title.isNotEmpty()) {
-                            dailyBulletRepository.updateDailyBullet(it)
-                            saveLiveData.postValue(true)
-                        } else {
-                            saveLiveData.postValue(false)
-                        }
-                    } ?: saveLiveData.postValue(false)
-                    return@Function true
-                })
-                .subscribe()
+        Maybe.create(MaybeOnSubscribe<DailyBullet>{
+            dailyBulletLiveData.value?.apply {
+                when (content.isNotEmpty() || title.isNotEmpty()) {
+                    true -> it.onSuccess(this)
+                    else -> it.onComplete()
+                }
+            }
+        }).flatMapCompletable({
+            dailyBulletRepository.updateDailyBullet(it)
+        }).observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribeBy(
+                        onComplete = { bulletStateLiveData.postValue(BulletModel.Saved()) }
+                )
                 .addTo(disposables)
     }
 
     fun delete() {
-        dailyBulletLiveData.value?.let {
-            dailyBulletRepository.deleteDailyBullet(it)
+        dailyBulletLiveData.value?.apply {
+            dailyBulletRepository.deleteDailyBullet(this)
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .subscribeBy(onComplete = { bulletStateLiveData.postValue(BulletModel.Deleted())},
+                            onError = { it.printStackTrace() })
+                    .addTo(disposables)
         }
     }
 

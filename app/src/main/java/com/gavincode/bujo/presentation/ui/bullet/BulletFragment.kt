@@ -1,11 +1,13 @@
 package com.gavincode.bujo.presentation.ui.bullet
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
 import android.view.*
 import com.gavincode.bujo.R
@@ -69,6 +71,9 @@ class BulletFragment: Fragment() {
                 false
             }
         }
+        bullet_menu.setOnClickListener {
+            onClick(it)
+        }
     }
 
     private fun setContentViewTouchDelegate() {
@@ -83,12 +88,12 @@ class BulletFragment: Fragment() {
     private fun bindViewModel() {
         bulletViewModel.getDailyBullet()
                 .observe(this, Observer{
-                    it?.let { render(it) }
+                    it?.apply { render(this) }
                 })
 
-        bulletViewModel.getSaved()
+        bulletViewModel.getDailyBulletState()
                 .observe(this, Observer {
-                    it?.let { onSaved(it) }
+                    it?.apply { handleBulletStateChanged(this) }
                 })
 
         arguments?.getString(Navigator.ARG_BULLET_ID)?.apply {
@@ -101,7 +106,20 @@ class BulletFragment: Fragment() {
         }
     }
 
-    private fun onSaved(shouldSave: Boolean) {
+    private fun handleBulletStateChanged(bulletModel: BulletModel) {
+        when (bulletModel) {
+            is BulletModel.Saved -> { onSaved() }
+            is BulletModel.Deleted -> { onDeleted() }
+        }
+    }
+
+    private fun onDeleted () {
+        activity?.setResult(Activity.RESULT_OK)
+        activity?.finish()
+    }
+
+    private fun onSaved() {
+        activity?.setResult(Activity.RESULT_OK)
         activity?.finish()
     }
 
@@ -120,6 +138,7 @@ class BulletFragment: Fragment() {
         }
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when(it.itemId) {
@@ -133,5 +152,28 @@ class BulletFragment: Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun onClick(view: View) {
+        when(view.id) {
+            R.id.bullet_menu -> {
+                handleMenuClicked()
+            }
+        }
+    }
+
+    private fun handleMenuClicked() {
+        activity?.apply {
+            val bottomSheetDialog = BottomSheetDialog(this)
+            val sheetView = layoutInflater.inflate(R.layout.dialog_bullet, null)
+            bottomSheetDialog.setContentView(sheetView)
+            sheetView.findViewById<View>(R.id.dialog_bottom_sheet_delete)
+                    .setOnClickListener {
+                        bottomSheetDialog.dismiss()
+                        bulletViewModel.delete()
+                        finish()
+                    }
+            bottomSheetDialog.show()
+        }
     }
 }

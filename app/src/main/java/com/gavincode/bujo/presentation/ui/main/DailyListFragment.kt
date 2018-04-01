@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -35,7 +36,6 @@ class DailyListFragment: Fragment(), DailyListClickListener {
     companion object {
 
         private const val ARG_DATE = "date"
-
 
         fun newInstance(day: LocalDate): DailyListFragment {
             val fragment = DailyListFragment()
@@ -124,6 +124,19 @@ class DailyListFragment: Fragment(), DailyListClickListener {
     override fun onClick(bulletId: String) {
         val intent = Intent(activity, BulletActivity::class.java)
         intent.putExtra(Navigator.ARG_BULLET_ID, bulletId)
-        activity?.startActivity(intent)
+        startActivityForResult(intent, Navigator.REQ_BULLET_EDIT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Navigator.REQ_BULLET_EDIT) {
+            activity?.apply {
+                Snackbar.make(findViewById(android.R.id.content), "Bullet changed", Snackbar.LENGTH_LONG).show()
+            }
+            (arguments?.getSerializable("date") as LocalDate?)
+                    ?.apply {
+                        dailyListViewModel.fetchLiveData(this)
+                    }
+        }
     }
 }

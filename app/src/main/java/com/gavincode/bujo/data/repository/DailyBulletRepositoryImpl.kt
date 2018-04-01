@@ -8,6 +8,7 @@ import com.gavincode.bujo.data.mapper.DailyBulletMapper
 import com.gavincode.bujo.domain.Attachment
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -33,19 +34,24 @@ class DailyBulletRepositoryImpl @Inject constructor(
         })
     }
 
-    override fun updateDailyBullet(dailyBullet: DailyBullet) {
-        dailyBullet.attachments?.let {
-            it.forEach {
-                updateAttachment(it, dailyBullet.id)
+    override fun updateDailyBullet(dailyBullet: DailyBullet): Completable {
+        return Completable.create({
+            dailyBullet.attachments?.let {
+                it.forEach {
+                    updateAttachment(it, dailyBullet.id)
+                }
             }
-        }
-        try {
-            db.beginTransaction()
-            dailyBulletDao.insert(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
-        }
+            try {
+                db.beginTransaction()
+                dailyBulletDao.insert(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
+                db.setTransactionSuccessful()
+            } catch (e: Exception) {
+                it.onError(e)
+            } finally {
+                db.endTransaction()
+            }
+            it.onComplete()
+        })
     }
 
     override fun updateAttachment(attachment: Attachment, parentId: String) {
@@ -58,16 +64,21 @@ class DailyBulletRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun deleteDailyBullet(dailyBullet: DailyBullet) {
-        try {
-            db.beginTransaction()
-            dailyBullet.attachments?.forEach {
-                attachmentDao.delete(AttachmentMapper.toAttachmentEntity(it, dailyBullet.id))
+    override fun deleteDailyBullet(dailyBullet: DailyBullet): Completable {
+        return Completable.create({
+            try {
+                db.beginTransaction()
+                dailyBullet.attachments?.forEach {
+                    attachmentDao.delete(AttachmentMapper.toAttachmentEntity(it, dailyBullet.id))
+                }
+                dailyBulletDao.deleteDailyBullet(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
+                db.setTransactionSuccessful()
+            } catch (e : Exception) {
+                it.onError(e)
+            } finally {
+                db.endTransaction()
             }
-            dailyBulletDao.deleteDailyBullet(DailyBulletMapper.toDailyBulletEntity(dailyBullet))
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
-        }
+            it.onComplete()
+        })
     }
 }

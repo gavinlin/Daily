@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bullet_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fillViewport="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     >
-    <RelativeLayout
+
+    <ScrollView
+        android:id="@+id/bullet_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:fillViewport="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         >
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/bullet_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/bullet_title_hint"
-            android:background="@null"
-            android:nextFocusUp="@id/bullet_title"
-            android:nextFocusLeft="@id/bullet_title"
-            />
-
-        <FrameLayout
-            android:id="@+id/bullet_content_parent_layout"
-            android:layout_marginTop="20dp"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/bullet_title"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             >
-
-            <ViewStub
-                android:id="@+id/bullet_content_container"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/bullet_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/bullet_title_hint"
+                android:background="@null"
+                android:nextFocusUp="@id/bullet_title"
+                android:nextFocusLeft="@id/bullet_title"
                 />
-        </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/bullet_content_parent_layout"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/bullet_title"
+                >
+
+                <ViewStub
+                    android:id="@+id/bullet_content_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </FrameLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/daily_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:translationZ="20dp"
+        >
+        <ImageView
+            android:id="@+id/bullet_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentEnd="true"
+            />
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.gavincode.bujo.domain.repository
 
 import com.gavincode.bujo.domain.Attachment
 import com.gavincode.bujo.domain.DailyBullet
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import org.threeten.bp.LocalDate
 
@@ -12,8 +13,8 @@ import org.threeten.bp.LocalDate
 interface DailyBulletRepository {
     fun getDailyBullets(date: LocalDate): Maybe<List<DailyBullet>>
     fun getDailyBullet(id: String): Maybe<DailyBullet>
-    fun updateDailyBullet(dailyBullet: DailyBullet)
+    fun updateDailyBullet(dailyBullet: DailyBullet): Completable
     fun updateAttachment(attachment: Attachment, parentId: String)
 
-    fun deleteDailyBullet(dailyBullet: DailyBullet)
+    fun deleteDailyBullet(dailyBullet: DailyBullet): Completable
 }

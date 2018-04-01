@@ -3,4 +3,5 @@
 
     <string name="bullet_title_hint">Title</string>
     <string name="bullet_content_hint">Content…</string>
+    <string name="dialog_delete">Delete</string>
 </resources>
