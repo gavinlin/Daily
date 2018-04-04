@@ -46,9 +46,7 @@ class DailyPlanFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
-        activity?.let {
-            ButterKnife.bind(this, view)
-        }
+        ButterKnife.bind(this, view)
         return view
     }
 

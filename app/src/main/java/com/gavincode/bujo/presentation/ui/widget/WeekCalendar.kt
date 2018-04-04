@@ -167,7 +167,8 @@ class WeekCalendar: LinearLayout {
     }
 
     private fun scrollToPosition(targetPosition: Int) {
-        listViewWeeks.layoutManager.scrollToPosition(targetPosition)
+        (listViewWeeks.layoutManager as LinearLayoutManager)
+                .scrollToPositionWithOffset(targetPosition, 0)
     }
 
     private fun updateItemAtPosition(position: Int) {

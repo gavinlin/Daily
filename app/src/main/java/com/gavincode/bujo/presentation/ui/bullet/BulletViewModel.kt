@@ -45,17 +45,20 @@ class BulletViewModel @Inject constructor(
     }
 
     private fun newBulletInterval(date: Long?) {
-        val localDate = if (date == null) LocalDate.now() else LocalDate.ofEpochDay(date)
-        dailyBulletLiveData.postValue(
-                                DailyBullet(UUID.randomUUID().toString(),
-                                        "",
-                                        "",
-                                        false,
-                                        localDate,
-                                        0,
-                                        false,
-                                        arrayListOf())
-                        )
+        (if (date == null) LocalDate.now() else LocalDate.ofEpochDay(date))
+                .apply {
+                    dailyBulletLiveData.postValue(
+                            DailyBullet(UUID.randomUUID().toString(),
+                                    "",
+                                    "",
+                                    false,
+                                    this,
+                                    0,
+                                    false,
+                                    arrayListOf())
+                    )
+                }
+
     }
 
     fun exit() {

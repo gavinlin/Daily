@@ -56,6 +56,13 @@
         android:translationZ="20dp"
         >
         <ImageView
+            android:id="@+id/bullet_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plus"
+            android:layout_alignParentStart="true"
+            />
+        <ImageView
             android:id="@+id/bullet_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -72,7 +72,11 @@ class BulletFragment: Fragment() {
             }
         }
         bullet_menu.setOnClickListener {
-            onClick(it)
+            handleMenuClicked()
+        }
+
+        bullet_add.setOnClickListener {
+            handleAddClicked()
         }
     }
 
@@ -154,24 +158,30 @@ class BulletFragment: Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun onClick(view: View) {
-        when(view.id) {
-            R.id.bullet_menu -> {
-                handleMenuClicked()
-            }
-        }
-    }
-
     private fun handleMenuClicked() {
         activity?.apply {
             val bottomSheetDialog = BottomSheetDialog(this)
-            val sheetView = layoutInflater.inflate(R.layout.dialog_bullet, null)
+            val sheetView = layoutInflater.inflate(R.layout.dialog_bullet_edit, null)
             bottomSheetDialog.setContentView(sheetView)
             sheetView.findViewById<View>(R.id.dialog_bottom_sheet_delete)
                     .setOnClickListener {
                         bottomSheetDialog.dismiss()
                         bulletViewModel.delete()
                         finish()
+                    }
+            bottomSheetDialog.show()
+        }
+    }
+
+    private fun handleAddClicked() {
+        activity?.apply {
+            val bottomSheetDialog = BottomSheetDialog(this)
+            val sheetView = layoutInflater.inflate(R.layout.dialog_bullet_add, null)
+            bottomSheetDialog.setContentView(sheetView)
+            sheetView.findViewById<View>(R.id.dialog_bottom_sheet_list)
+                    .setOnClickListener {
+                        bottomSheetDialog.dismiss()
+                        // TODO
                     }
             bottomSheetDialog.show()
         }
