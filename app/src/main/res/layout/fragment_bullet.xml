@@ -5,14 +5,12 @@
     android:layout_height="match_parent"
     >
 
-    <ScrollView
+    <com.gavincode.bujo.presentation.ui.widget.NonFocusingScrollView
         android:id="@+id/bullet_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:fillViewport="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:layout_above="@id/daily_bottom_layout"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,7 +19,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             >
-            <android.support.v7.widget.AppCompatEditText
+            <com.gavincode.bujo.presentation.ui.widget.BulletEditText
                 android:id="@+id/bullet_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,6 +27,8 @@
                 android:background="@null"
                 android:nextFocusUp="@id/bullet_title"
                 android:nextFocusLeft="@id/bullet_title"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 />
 
             <FrameLayout
@@ -46,7 +46,7 @@
                     />
             </FrameLayout>
         </RelativeLayout>
-    </ScrollView>
+    </com.gavincode.bujo.presentation.ui.widget.NonFocusingScrollView>
     <RelativeLayout
         android:id="@+id/daily_bottom_layout"
         android:layout_width="match_parent"

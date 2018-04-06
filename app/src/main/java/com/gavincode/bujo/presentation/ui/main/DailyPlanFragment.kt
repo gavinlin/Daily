@@ -6,9 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
@@ -38,8 +36,10 @@ class DailyPlanFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         val calendarManager = CalendarManager
-        val minDate = LocalDate.now().minusMonths(2).withDayOfMonth(1)
+        val minDate = LocalDate.of(2017, 1, 1)
+//        val minDate = LocalDate.now().minusMonths(2).withDayOfMonth(1)
         val maxDate = LocalDate.now().plusYears(1)
         calendarManager.buildCal(minDate, maxDate)
     }
@@ -80,5 +80,25 @@ class DailyPlanFragment: Fragment() {
         val intent = Intent(activity, BulletActivity::class.java)
         intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
         activity?.startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.run {
+            inflater?.inflate(R.menu.fragment_calendar, menu)
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return item?.run {
+            when(itemId) {
+                R.id.action_today -> {
+
+                    CalendarManager.setCurrentDay(CalendarManager.today)
+                    true
+                }
+                else ->super.onOptionsItemSelected(item)
+            }
+        } ?: return super.onOptionsItemSelected(item)
     }
 }

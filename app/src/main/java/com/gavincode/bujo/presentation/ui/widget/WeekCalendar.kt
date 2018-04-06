@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import org.threeten.bp.LocalDate
 import org.threeten.bp.temporal.ChronoUnit
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -35,10 +36,11 @@ class WeekCalendar: LinearLayout {
     lateinit var listViewWeeks: WeekListView
         private set
 
-    var mCalendarDayTextColor: Int = 0
-    var mCalendarCurrentDayColor: Int = 0
-    var mCalendarPastDayTextColor: Int = 0
-    var mCalendarBackgroundColor: Int = 0
+    private var mCalendarDayTextColor: Int = 0
+    private var mCalendarCurrentDayColor: Int = 0
+    private var mCalendarPastDayTextColor: Int = 0
+    private var mCalendarBackgroundColor: Int = 0
+    private var mCalendarSelectedColor: Int = 0
 
     constructor(context: Context) : super(context)
 
@@ -54,6 +56,7 @@ class WeekCalendar: LinearLayout {
                 ContextCompat.getColor(context, R.color.calendar_text_current_day))
         mCalendarPastDayTextColor = t.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor,
                 ContextCompat.getColor(context, R.color.colorPrimary))
+        mCalendarSelectedColor = ContextCompat.getColor(context, android.R.color.white)
 
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -128,13 +131,14 @@ class WeekCalendar: LinearLayout {
         val weeks = CalendarManager.weeks
 
         setUpAdapter(today, weeks, mCalendarDayTextColor, mCalendarCurrentDayColor,
-                mCalendarPastDayTextColor)
+                mCalendarPastDayTextColor, mCalendarSelectedColor)
         scrollToDate(today, weeks, locale)
     }
 
     private fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
         val currentWeekIndex = getWeekIndexFromDay(date)
-        if (currentWeekIndex != -1 && currentWeekIndex != currentListPosition) {
+        if (currentWeekIndex != -1 && currentWeekIndex != currentListPosition
+            || (listViewWeeks.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() != currentWeekIndex) {
             listViewWeeks.post({
                 scrollToPosition(currentWeekIndex)
             })
@@ -148,8 +152,10 @@ class WeekCalendar: LinearLayout {
     private fun setUpAdapter(today: LocalDate, weeks: List<WeekItem>,
                              dayTextColor: Int,
                              currentDayTextColor: Int,
-                             postDayTextColor: Int) {
-        val weeksAdapter = WeeksAdapter(today, dayTextColor, currentDayTextColor, postDayTextColor)
+                             postDayTextColor: Int,
+                             selectedTextColor: Int) {
+        val weeksAdapter = WeeksAdapter(today, dayTextColor, currentDayTextColor, postDayTextColor,
+                selectedTextColor)
         listViewWeeks.adapter = weeksAdapter
         weeksAdapter.updateWeeksItem(weeks)
     }
@@ -167,6 +173,7 @@ class WeekCalendar: LinearLayout {
     }
 
     private fun scrollToPosition(targetPosition: Int) {
+        Timber.i("target position is $targetPosition")
         (listViewWeeks.layoutManager as LinearLayoutManager)
                 .scrollToPositionWithOffset(targetPosition, 0)
     }

@@ -24,7 +24,8 @@ import java.util.*
  */
 
 class WeeksAdapter(val today: LocalDate,
-                   val dayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int)
+                   val dayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int,
+                   val selectedTextColor: Int)
     : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     companion object {
@@ -181,7 +182,7 @@ class WeeksAdapter(val today: LocalDate,
                     }
 
                     if (dayItem.isSelected) {
-                        dayView.setTextColor(dayTextColor)
+                        dayView.setTextColor(selectedTextColor)
                         circleView.visibility = View.VISIBLE
                         val drawable = circleView.background as GradientDrawable
                         drawable.setStroke((1 * Resources.getSystem().displayMetrics.density).toInt(), dayTextColor)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.AppCompatEditText
+<com.gavincode.bujo.presentation.ui.widget.BulletEditText
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bullet_content_edit_text"
     android:hint="@string/bullet_content_hint"
@@ -9,4 +9,4 @@
     android:background="@null"
     >
 
-</android.support.v7.widget.AppCompatEditText>
+</com.gavincode.bujo.presentation.ui.widget.BulletEditText>

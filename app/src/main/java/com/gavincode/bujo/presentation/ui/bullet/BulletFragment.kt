@@ -63,14 +63,6 @@ class BulletFragment: Fragment() {
     }
 
     private fun prepareView() {
-        bullet_scroll_view.apply {
-            descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-
-            setOnTouchListener { v, _->
-                v.requestFocusFromTouch()
-                false
-            }
-        }
         bullet_menu.setOnClickListener {
             handleMenuClicked()
         }
@@ -129,16 +121,15 @@ class BulletFragment: Fragment() {
 
     private fun render(dailyBullet: DailyBullet) {
         bullet_title.setText(dailyBullet.title)
+        if (bullet_title.text.isNullOrBlank()) {
+            bullet_title.requestFocus()
+        }
         if (dailyBullet.ticked) {
 
         } else {
             bullet_content_container.layoutResource = R.layout.view_bullet_content
             bullet_content_container.inflate()
             bullet_content_edit_text.setText(dailyBullet.content)
-            if (dailyBullet.content.isNullOrBlank()) {
-                bullet_content_edit_text.requestFocus()
-            }
-//            setContentViewTouchDelegate()
         }
     }
 
