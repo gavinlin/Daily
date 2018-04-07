@@ -137,8 +137,7 @@ class WeekCalendar: LinearLayout {
 
     private fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
         val currentWeekIndex = getWeekIndexFromDay(date)
-        if (currentWeekIndex != -1 && currentWeekIndex != currentListPosition
-            || (listViewWeeks.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() != currentWeekIndex) {
+        if ((listViewWeeks.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != currentWeekIndex) {
             listViewWeeks.post({
                 scrollToPosition(currentWeekIndex)
             })

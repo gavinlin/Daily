@@ -43,4 +43,9 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
         return dispatchingAndroidInjector
     }
 
+    override fun onBackPressed() {
+        (supportFragmentManager
+                .findFragmentById(R.id.bullet_container) as BulletFragment?)
+                ?.handleBack() ?: super.onBackPressed()
+    }
 }

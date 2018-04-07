@@ -133,15 +133,18 @@ class BulletFragment: Fragment() {
         }
     }
 
+    fun handleBack() {
+        bulletViewModel.getDailyBullet().value?.title = bullet_title.text.toString()
+        bulletViewModel.getDailyBullet().value?.content = bullet_content_edit_text.text.toString()
+
+        bulletViewModel.exit()
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when(it.itemId) {
                 android.R.id.home -> {
-                    bulletViewModel.getDailyBullet().value?.title = bullet_title.text.toString()
-                    bulletViewModel.getDailyBullet().value?.content = bullet_content_edit_text.text.toString()
-
-                    bulletViewModel.exit()
+                    handleBack()
                 }
                 else -> {}
             }

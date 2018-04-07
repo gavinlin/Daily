@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_plus"
             android:layout_alignParentStart="true"
+            android:visibility="gone"
             />
         <ImageView
             android:id="@+id/bullet_menu"

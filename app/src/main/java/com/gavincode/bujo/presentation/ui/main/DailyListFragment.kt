@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -14,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
+import com.gavincode.bujo.presentation.ui.NavigateResultInfo
 import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import dagger.android.support.AndroidSupportInjection
@@ -78,6 +78,8 @@ class DailyListFragment: Fragment(), DailyListClickListener {
         date?.let {
             dailyListViewModel.fetchLiveData(it)
         }
+        Navigator.getActivityForResultLiveData().observe(this,
+                Observer { it?.apply { handleActivityResult(it) } })
     }
 
     private fun bindViewModel() {
@@ -127,16 +129,22 @@ class DailyListFragment: Fragment(), DailyListClickListener {
         startActivityForResult(intent, Navigator.REQ_BULLET_EDIT)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Navigator.REQ_BULLET_EDIT) {
-            activity?.apply {
-                Snackbar.make(findViewById(android.R.id.content), "Bullet changed", Snackbar.LENGTH_LONG).show()
+    private fun handleActivityResult(navigateResultInfo: NavigateResultInfo) {
+        when (navigateResultInfo.requestCode) {
+            Navigator.REQ_BULLET_EDIT, Navigator.REQ_BULLET_ADD -> {
+//                activity?.apply {
+//                    Snackbar.make(findViewById(android.R.id.content), "Bullet changed", Snackbar.LENGTH_LONG).show()
+//                }
+                (arguments?.getSerializable("date") as LocalDate?)
+                        ?.apply {
+                            dailyListViewModel.fetchLiveData(this)
+                        }
             }
-            (arguments?.getSerializable("date") as LocalDate?)
-                    ?.apply {
-                        dailyListViewModel.fetchLiveData(this)
-                    }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Navigator.sendActivityResult(NavigateResultInfo(requestCode, resultCode, data))
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

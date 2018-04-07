@@ -10,6 +10,7 @@ import android.view.*
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
+import com.gavincode.bujo.presentation.ui.NavigateResultInfo
 import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
@@ -70,7 +71,7 @@ class DailyPlanFragment: Fragment() {
             }
         })
         CalendarManager.currentDayLiveData.observe(this, Observer {
-            (activity as MainActivity).supportActionBar?.title = it!!.month.name
+            (activity as MainActivity).supportActionBar?.title = it?.month?.name
             daily_bullet_view.setCurrentItem(Math.abs(it!!.duration(CalendarManager.days.first().date)).toInt(), true)
         })
     }
@@ -79,7 +80,7 @@ class DailyPlanFragment: Fragment() {
     fun onBulletClicked() {
         val intent = Intent(activity, BulletActivity::class.java)
         intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
-        activity?.startActivity(intent)
+        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -100,5 +101,10 @@ class DailyPlanFragment: Fragment() {
                 else ->super.onOptionsItemSelected(item)
             }
         } ?: return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Navigator.sendActivityResult(NavigateResultInfo(requestCode,  resultCode, data))
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

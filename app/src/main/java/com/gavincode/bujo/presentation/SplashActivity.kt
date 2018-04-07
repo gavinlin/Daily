@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gavincode.bujo.R
-import com.gavincode.bujo.presentation.ui.entry.SignInActivity
 import com.gavincode.bujo.presentation.ui.main.MainActivity
-import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
 
 /**
@@ -19,17 +17,16 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        Timber.d("User has been login")
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+//        val firebaseUser = FirebaseAuth.getInstance().currentUser
 
-        if (firebaseUser != null) {
-            Timber.d("User has been login")
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        } else {
+//            val intent = Intent(this, SignInActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
     }
 }
