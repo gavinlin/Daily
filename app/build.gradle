@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+
+
+repositories {
+    maven {
+        url "https://dl.bintray.com/gavinlinau/android"
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -35,6 +43,7 @@ dependencies {
     implementation Deps.firebase_core
     implementation Deps.firebase_firestore
     implementation Deps.firebase_storage
+    implementation Deps.crashlytics
 
     implementation Deps.threetenabp
 
@@ -64,6 +73,8 @@ dependencies {
     implementation Deps.gson
 
     implementation Deps.multidex
+
+    implementation Deps.checklistview
 
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner

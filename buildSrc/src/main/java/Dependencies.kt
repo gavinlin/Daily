@@ -20,19 +20,23 @@ object Versions {
     val lifecycle = "1.1.0"
     val multidex = "1.0.1"
     val rxkotlin = "2.2.0"
+    val crashlytics = "2.9.1"
+    val checklistview = "1.0.0"
 }
 
 object Deps {
     val support_appcomat_v7 = "com.android.support:appcompat-v7:${Versions.android_support}"
     val support_constraint = "com.android.support.constraint:constraint-layout:${Versions.constraint}"
     val support_design = "com.android.support:design:${Versions.android_support}"
-    val support_recycler_view = "com.android.support:cardview-v7:${Versions.android_support}"
+    val support_recycler_view = "com.android.support:recyclerview-v7:${Versions.android_support}"
     val support_card_view = "com.android.support:cardview-v7:${Versions.android_support}"
 
     val firebase_ui_auth = "com.firebaseui:firebase-ui-auth:${Versions.firebase_ui}"
     val firebase_core = "com.google.firebase:firebase-core:${Versions.firebase}"
     val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase}"
     val firebase_storage = "com.google.firebase:firebase-storage:${Versions.firebase}"
+    val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
+
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     val test_junit = "junit:junit:${Versions.junit}"
@@ -65,6 +69,7 @@ object Deps {
     val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     val multidex = "com.android.support:multidex:${Versions.multidex}"
+    val checklistview = "com.gavincode:checklistview:${Versions.checklistview}"
 
     val espresso_core = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     val espresso_contrib = "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"

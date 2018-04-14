@@ -1,0 +1,2 @@
+json_key_file("/Users/gavinlin/workspace/android_release_key/Google\ Play\ Android\ Developer-5e6c3685076e.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.gavincode.bujo") # e.g. com.krausefx.app
