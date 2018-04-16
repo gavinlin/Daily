@@ -99,6 +99,5 @@ class BulletViewModel @Inject constructor(
         dailyBullet?.ticked = dailyBullet?.ticked?.not() ?: false
         dailyBullet?.content = content
         dailyBulletLiveData.postValue(dailyBullet)
-
     }
 }

@@ -31,4 +31,11 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  lane :release_build do
+    gradle(
+        task: "assemble", 
+        build_type: "Release"
+    )
+  end
 end
