@@ -1,7 +1,7 @@
 
 object Versions {
     val kotlin = "1.2.30"
-    val android_support = "26.1.0"
+    val android_support = "27.1.1"
     val constraint = "1.0.2"
     val firebase = "11.8.0"
     val firebase_ui = "3.2.1"
@@ -21,7 +21,7 @@ object Versions {
     val multidex = "1.0.1"
     val rxkotlin = "2.2.0"
     val crashlytics = "2.9.1"
-    val checklistview = "1.0.0"
+    val checklistview = "1.0.2"
 }
 
 object Deps {

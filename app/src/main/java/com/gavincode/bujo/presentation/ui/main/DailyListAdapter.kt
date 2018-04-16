@@ -26,7 +26,7 @@ class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolde
         return list.size
     }
 
-    override fun onBindViewHolder(holder: DailyListViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: DailyListViewHolder, position: Int) {
         val dailyBullet = list[position]
         holder?.let {
             if (dailyBullet.title.isNotBlank()) it.titleView.text = dailyBullet.title

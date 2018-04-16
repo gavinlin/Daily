@@ -39,7 +39,7 @@ class BulletFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var bulletViewModel: BulletViewModel
-
+    lateinit var contentViewHelper: ContentViewHelper
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
@@ -48,6 +48,7 @@ class BulletFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        contentViewHelper = ContentViewHelper()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -124,18 +125,18 @@ class BulletFragment: Fragment() {
         if (bullet_title.text.isNullOrBlank()) {
             bullet_title.requestFocus()
         }
-        if (dailyBullet.ticked) {
-
+        if (!dailyBullet.ticked) {
+            contentViewHelper.setContentView(PlainContentView(bullet_content_parent_layout))
+            contentViewHelper.setData(dailyBullet.content)
         } else {
-            bullet_content_container.layoutResource = R.layout.view_bullet_content
-            bullet_content_container.inflate()
-            bullet_content_edit_text.setText(dailyBullet.content)
+            contentViewHelper.setContentView(ListContentView(bullet_content_parent_layout))
+            contentViewHelper.setData(dailyBullet.content)
         }
     }
 
     fun handleBack() {
         bulletViewModel.getDailyBullet().value?.title = bullet_title.text.toString()
-        bulletViewModel.getDailyBullet().value?.content = bullet_content_edit_text.text.toString()
+        bulletViewModel.getDailyBullet().value?.content = contentViewHelper.getData()
 
         bulletViewModel.exit()
     }
@@ -175,7 +176,7 @@ class BulletFragment: Fragment() {
             sheetView.findViewById<View>(R.id.dialog_bottom_sheet_list)
                     .setOnClickListener {
                         bottomSheetDialog.dismiss()
-                        // TODO
+                        bulletViewModel.changeCheck(contentViewHelper.getData())
                     }
             bottomSheetDialog.show()
         }

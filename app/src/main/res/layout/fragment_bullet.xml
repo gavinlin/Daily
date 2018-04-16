@@ -39,11 +39,6 @@
                 android:layout_below="@id/bullet_title"
                 >
 
-                <ViewStub
-                    android:id="@+id/bullet_content_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
             </FrameLayout>
         </RelativeLayout>
     </com.gavincode.bujo.presentation.ui.widget.NonFocusingScrollView>
@@ -61,7 +56,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_plus"
             android:layout_alignParentStart="true"
-            android:visibility="gone"
             />
         <ImageView
             android:id="@+id/bullet_menu"

@@ -93,4 +93,12 @@ class BulletViewModel @Inject constructor(
     fun newDailyBullet(long: Long?) {
         newBulletInterval(long)
     }
+
+    fun changeCheck(content: String) {
+        val dailyBullet = dailyBulletLiveData.value
+        dailyBullet?.ticked = dailyBullet?.ticked?.not() ?: false
+        dailyBullet?.content = content
+        dailyBulletLiveData.postValue(dailyBullet)
+
+    }
 }

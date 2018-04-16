@@ -50,7 +50,7 @@ class WeeksAdapter(val today: LocalDate,
         return weekList.size
     }
 
-    override fun onBindViewHolder(holder: WeekViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: WeekViewHolder, position: Int) {
         val weekItem = weekList[position]
         holder?.bindWeek(weekItem, today)
     }
