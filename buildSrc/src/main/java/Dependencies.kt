@@ -1,6 +1,6 @@
 
 object Versions {
-    val kotlin = "1.2.30"
+    val kotlin = "1.2.40"
     val android_support = "27.1.1"
     val constraint = "1.0.2"
     val firebase = "11.8.0"

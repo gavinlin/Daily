@@ -22,39 +22,47 @@ class DailyListViewModel @Inject constructor(
     private val messageLiveData =  SingleLiveEvent<Message>()
     private val uiModelLiveData = MutableLiveData<DailyListUiModel>()
 
+    private val dateLiveData = MutableLiveData<LocalDate>()
+
     fun bindMessage(): LiveData<Message> = messageLiveData
     fun bindUiModel(): LiveData<DailyListUiModel> = uiModelLiveData
+    fun bindDate(): LiveData<LocalDate> = dateLiveData
 
     init {
         uiModelLiveData.postValue(DailyListUiModel.Idle())
     }
 
-    fun fetchLiveData(date: LocalDate) {
-        uiModelLiveData.postValue(DailyListUiModel.Loading())
-        dailyBulletRepository.getDailyBullets(date)
-                .observeOn(Schedulers.io())
-                .subscribeOn(Schedulers.io())
-                .subscribeBy(
-                        onSuccess = {
-                            when (it.size) {
-                                0    -> uiModelLiveData.postValue(DailyListUiModel.Empty ())
-                                else -> uiModelLiveData.postValue(DailyListUiModel.DailyBullets(it))
+    fun fetchLiveData() {
+        dateLiveData.value?.apply {
+            uiModelLiveData.postValue(DailyListUiModel.Loading())
+            dailyBulletRepository.getDailyBullets(this)
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .subscribeBy(
+                            onSuccess = {
+                                when (it.size) {
+                                    0    -> uiModelLiveData.postValue(DailyListUiModel.Empty ())
+                                    else -> uiModelLiveData.postValue(DailyListUiModel.DailyBullets(it))
+                                }
+                            },
+                            onComplete = {
+                                uiModelLiveData.postValue(DailyListUiModel.Empty())
+                            },
+                            onError = {
+                                uiModelLiveData.postValue(DailyListUiModel.Idle())
+                                handleError(it)
                             }
-                        },
-                        onComplete = {
-                            uiModelLiveData.postValue(DailyListUiModel.Empty())
-                        },
-                        onError = {
-                            uiModelLiveData.postValue(DailyListUiModel.Idle())
-                            handleError(it)
-                        }
-                        )
-                .addTo(disposables)
-
+                    )
+                    .addTo(disposables)
+        }
     }
 
     private fun handleError(throwable: Throwable) {
         messageLiveData.postValue(Message(Message.Level.ERROR,
                 "", throwable.message ?: ""))
+    }
+
+    fun setDate(localDate: LocalDate) {
+        dateLiveData.postValue(localDate)
     }
 }

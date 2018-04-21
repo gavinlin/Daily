@@ -10,18 +10,12 @@ import com.gavincode.bujo.domain.DailyBullet
 
 object DailyBulletMapper {
     fun toDailyBullet(dailyBulletEntity: DailyBulletWithAttachment): DailyBullet {
-        var dailyBullet: DailyBullet? = null
-        dailyBulletEntity.dailyBullet?.let {
-            dailyBullet = DailyBullet(it.uid,
-                it.title,
-                it.content,
-                it.ticked,
-                it.date,
-                it.bullet,
-                    it.archive,
-                AttachmentMapper.toAttachments(dailyBulletEntity.attachments))
-        }
-        return dailyBullet!!
+        return dailyBulletEntity.dailyBullet?.run {
+            DailyBullet(uid, title, content, ticked, date,
+                    bullet, archive, done,
+                    AttachmentMapper.toAttachments(dailyBulletEntity.attachments)
+            )
+        } ?: throw NullPointerException("Daily bullet is null")
     }
 
     fun toDailyBulletList(it: List<DailyBulletWithAttachment>): List<DailyBullet> {
@@ -33,14 +27,8 @@ object DailyBulletMapper {
     }
 
     fun toDailyBulletEntity(dailyBullet: DailyBullet): DailyBulletEntity {
-        return DailyBulletEntity(
-                dailyBullet.id,
-                dailyBullet.title,
-                dailyBullet.content,
-                dailyBullet.ticked,
-                dailyBullet.date,
-                dailyBullet.bullet,
-                dailyBullet.isArchive
-        )
+        return dailyBullet.run {
+            DailyBulletEntity(id, title, content, isList, date, bullet, isArchive, done)
+        }
     }
 }

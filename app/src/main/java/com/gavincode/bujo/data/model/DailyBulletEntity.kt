@@ -17,5 +17,6 @@ data class DailyBulletEntity (
         val ticked: Boolean,
         val date: LocalDate,
         val bullet: Int,
-        val archive: Boolean)
+        val archive: Boolean,
+        val done: Boolean)
 

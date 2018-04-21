@@ -55,6 +55,7 @@ class BulletViewModel @Inject constructor(
                                     this,
                                     0,
                                     false,
+                                    false,
                                     arrayListOf())
                     )
                 }
@@ -96,7 +97,7 @@ class BulletViewModel @Inject constructor(
 
     fun changeCheck(content: String) {
         val dailyBullet = dailyBulletLiveData.value
-        dailyBullet?.ticked = dailyBullet?.ticked?.not() ?: false
+        dailyBullet?.isList= dailyBullet?.isList?.not() ?: false
         dailyBullet?.content = content
         dailyBulletLiveData.postValue(dailyBullet)
     }

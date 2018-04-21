@@ -21,12 +21,5 @@ class SplashActivity: AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
-//        val firebaseUser = FirebaseAuth.getInstance().currentUser
-
-//        } else {
-//            val intent = Intent(this, SignInActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
     }
 }

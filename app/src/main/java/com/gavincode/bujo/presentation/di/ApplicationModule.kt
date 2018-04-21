@@ -5,6 +5,7 @@ import com.gavincode.bujo.BujoApplication
 import com.gavincode.bujo.data.db.AttachmentDao
 import com.gavincode.bujo.data.db.DailyBulletDao
 import com.gavincode.bujo.data.db.Journal
+import com.gavincode.bujo.data.db.JournalMigration
 import com.gavincode.bujo.data.repository.DailyBulletRepositoryImpl
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import dagger.Module
@@ -29,7 +30,9 @@ class ApplicationModule {
     @Singleton
     fun provideRoomDatabase(application: BujoApplication): Journal {
         return Room.databaseBuilder(application,
-                Journal::class.java, "journal.db").build()
+                Journal::class.java, "journal.db")
+                .addMigrations(JournalMigration.MIGRATION_1_2)
+                .build()
     }
 
     @Provides

@@ -11,7 +11,7 @@ import com.gavincode.bujo.data.model.DailyBulletEntity
  */
 
 @Database(entities = [DailyBulletEntity::class,
-    AttachmentEntity::class], version = 1)
+    AttachmentEntity::class], version = 2)
 @TypeConverters(DailyBulletConverters::class)
 abstract class Journal: RoomDatabase() {
     abstract fun dailyBulletDao(): DailyBulletDao

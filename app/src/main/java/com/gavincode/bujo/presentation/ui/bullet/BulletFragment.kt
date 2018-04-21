@@ -125,7 +125,7 @@ class BulletFragment: Fragment() {
         if (bullet_title.text.isNullOrBlank()) {
             bullet_title.requestFocus()
         }
-        if (!dailyBullet.ticked) {
+        if (!dailyBullet.isList) {
             contentViewHelper.setContentView(PlainContentView(bullet_content_parent_layout))
             contentViewHelper.setData(dailyBullet.content)
         } else {

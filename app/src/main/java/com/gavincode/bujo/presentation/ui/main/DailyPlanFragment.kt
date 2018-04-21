@@ -1,34 +1,43 @@
 package com.gavincode.bujo.presentation.ui.main
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
+import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.presentation.ui.NavigateResultInfo
 import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
-import com.gavincode.bujo.presentation.util.duration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_daily_plan.*
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 /**
  * Created by gavinlin on 26/2/18.
  */
 
-class DailyPlanFragment: Fragment() {
+class DailyPlanFragment: Fragment(), DailyListClickListener {
+
     companion object {
         fun getInstance(): DailyPlanFragment {
             return DailyPlanFragment()
         }
     }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var dailyListViewModel: DailyListViewModel
+
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -55,25 +64,70 @@ class DailyPlanFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         week_calendar_view.init()
 
-        daily_bullet_view.adapter = DailyPlanPagerAdapter(CalendarManager.days[0].date,
-                CalendarManager.days.last().date, activity!!.supportFragmentManager)
-        daily_bullet_view.currentItem =
-                Math.abs(CalendarManager.today.duration(CalendarManager.days.first().date)).toInt()
-        daily_bullet_view.addOnPageChangeListener(object :ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                CalendarManager.setCurrentDay(CalendarManager.days.first().date.plusDays(position.toLong()))
-            }
-        })
         CalendarManager.currentDayLiveData.observe(this, Observer {
             (activity as MainActivity).supportActionBar?.title = it?.month?.name
-            daily_bullet_view.setCurrentItem(Math.abs(it!!.duration(CalendarManager.days.first().date)).toInt(), true)
+//            daily_bullet_view.setCurrentItem(Math.abs(it!!.duration(CalendarManager.days.first().date)).toInt(), true)
+            it?.run { dailyListViewModel.setDate(this) }
         })
+
+        bindView()
+    }
+
+    private fun bindView() {
+        dailyListViewModel =
+                ViewModelProviders.of(this, viewModelFactory)
+                        .get(DailyListViewModel::class.java)
+        daily_list_recycler_view.layoutManager = LinearLayoutManager(context)
+        daily_list_recycler_view.adapter = DailyListAdapter()
+        (daily_list_recycler_view.adapter as DailyListAdapter).dailyListOnClickListener = this
+        daily_plan_list_date_view.visibility = View.VISIBLE
+        daily_list_recycler_view.visibility = View.GONE
+        swipe_refresh_view.setOnRefreshListener {
+            dailyListViewModel.fetchLiveData()
+        }
+        Navigator.getActivityForResultLiveData().observe(this,
+                Observer { it?.apply { handleActivityResult(it) } })
+        dailyListViewModel.bindDate().observe(this,
+                Observer {
+                    it?.run { dailyListViewModel.fetchLiveData() }
+                })
+        dailyListViewModel.bindUiModel().observe(this,
+                Observer { it?.run { renderUi(this) } })
+        Navigator.getActivityForResultLiveData().observe(this,
+                Observer { it?.apply { handleActivityResult(it) } })
+    }
+
+    private fun renderUi(uiModel: DailyListUiModel) {
+        when (uiModel) {
+            is DailyListUiModel.Idle -> onIdle()
+            is DailyListUiModel.Loading -> onLoading()
+            is DailyListUiModel.Empty -> onEmpty()
+            is DailyListUiModel.DailyBullets -> onDailyBullets(uiModel.dailyBullets)
+        }
+    }
+
+    private fun onIdle() {
+        swipe_refresh_view.isRefreshing = false
+    }
+
+    private fun onLoading() {
+        if (swipe_refresh_view.isRefreshing) return
+        swipe_refresh_view.isRefreshing = true
+    }
+
+    private fun onEmpty() {
+        swipe_refresh_view.isRefreshing = false
+        daily_plan_list_date_view.visibility = View.VISIBLE
+        daily_list_recycler_view.visibility = View.GONE
+    }
+
+    private fun onDailyBullets(list: List<DailyBullet>) {
+        swipe_refresh_view.isRefreshing = false
+        daily_plan_list_date_view.visibility = View.GONE
+        daily_list_recycler_view.visibility = View.VISIBLE
+
+        (daily_list_recycler_view.adapter as DailyListAdapter)
+                .updateList(list)
     }
 
     @OnClick(R.id.daily_bullet_button)
@@ -106,5 +160,20 @@ class DailyPlanFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Navigator.sendActivityResult(NavigateResultInfo(requestCode,  resultCode, data))
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun handleActivityResult(navigateResultInfo: NavigateResultInfo) {
+        when (navigateResultInfo.requestCode) {
+            Navigator.REQ_BULLET_EDIT, Navigator.REQ_BULLET_ADD -> {
+                dailyListViewModel.fetchLiveData()
+            }
+        }
+    }
+
+    // DailyListClickListener
+    override fun onClick(bulletId: String) {
+        val intent = Intent(activity, BulletActivity::class.java)
+        intent.putExtra(Navigator.ARG_BULLET_ID, bulletId)
+        startActivityForResult(intent, Navigator.REQ_BULLET_EDIT)
     }
 }

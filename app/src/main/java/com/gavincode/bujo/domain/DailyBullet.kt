@@ -11,8 +11,9 @@ data class DailyBullet (
         val id: String,
         var title: String,
         var content: String,
-        var ticked: Boolean,
+        var isList: Boolean,
         var date: LocalDate,
         var bullet: Int,
         var isArchive: Boolean,
+        var done: Boolean,
         var attachments: List<Attachment>?)
