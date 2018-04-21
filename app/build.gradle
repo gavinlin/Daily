@@ -46,51 +46,38 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation Deps.support_appcomat_v7
     implementation Deps.support_constraint
     implementation Deps.support_design
     implementation Deps.support_recycler_view
     implementation Deps.support_card_view
-
     implementation Deps.firebase_ui_auth
     implementation Deps.firebase_core
     implementation Deps.firebase_firestore
     implementation Deps.firebase_storage
     implementation Deps.crashlytics
-
     implementation Deps.threetenabp
-
     implementation Deps.timber
     implementation Deps.butter_knife
     kapt Deps.butter_knife_compiler
-
     implementation Deps.dagger
     kapt Deps.dagger_compiler
     implementation Deps.dagger_android
     implementation Deps.dagger_android_support
     kapt Deps.dagger_android_compiler
-
     implementation Deps.rxjava
     implementation Deps.rxandroid
     implementation Deps.rxkotlin
-
     implementation Deps.kotlin_stdlib
-
     implementation Deps.room
     kapt Deps.room_compiler
     implementation Deps.room_rxjava2
-
     implementation Deps.lifecycle
     kapt Deps.lifecycle_compiler
-
     implementation Deps.gson
-
     implementation Deps.multidex
-
     implementation Deps.checklistview
-
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner
     androidTestImplementation Deps.room_test

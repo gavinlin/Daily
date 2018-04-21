@@ -28,9 +28,29 @@ class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolde
 
     override fun onBindViewHolder(holder: DailyListViewHolder, position: Int) {
         val dailyBullet = list[position]
-        holder?.let {
-            if (dailyBullet.title.isNotBlank()) it.titleView.text = dailyBullet.title
-            if (dailyBullet.content.isNotBlank()) it.contentView.text = dailyBullet.content
+
+        holder?.apply {
+            titleView.text = ""
+            contentView.text = ""
+            if (dailyBullet.title.isNotBlank()) titleView.text = dailyBullet.title
+            if (dailyBullet.content.isNotBlank()) {
+                if (dailyBullet.isList) {
+                    val array = dailyBullet.content.split("\n")
+                    val sb = StringBuffer()
+                    for (s in array) {
+                        if (s.startsWith("[X]")) {
+                            sb.append("☑").append(" ")
+                                    .append(s.substring(3)).append("\n")
+                        } else {
+                            sb.append("☐").append(" ")
+                            sb.append(if (s.startsWith("[]")) s.substring(2) else s).append("\n")
+                        }
+                    }
+                    contentView.text = sb.toString()
+                } else {
+                    contentView.text = dailyBullet.content
+                }
+            }
         }
     }
 

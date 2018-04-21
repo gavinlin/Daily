@@ -17,7 +17,7 @@ object Versions {
     val rxandroid = "2.0.2"
     val room = "1.0.0"
     val gson = "2.8.2"
-    val lifecycle = "1.1.0"
+    val lifecycle = "1.1.1"
     val multidex = "1.0.1"
     val rxkotlin = "2.2.0"
     val crashlytics = "2.9.1"
