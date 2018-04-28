@@ -6,9 +6,13 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.*
+import android.widget.LinearLayout
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.gavincode.bujo.R
@@ -57,6 +61,11 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
         ButterKnife.bind(this, view)
+        val appBar = inflater.inflate(R.layout.view_calendar_toolbar, null, false)
+        appBar.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        (view as CoordinatorLayout).addView(appBar)
+        val toolbar = appBar.findViewById<Toolbar>(R.id.toolbar)
+        (activity as AppCompatActivity)?.setSupportActionBar(toolbar)
         return view
     }
 

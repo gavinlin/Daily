@@ -41,7 +41,7 @@ class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolde
                         if (s.startsWith("[X]")) {
                             sb.append("☑").append(" ")
                                     .append(s.substring(3)).append("\n")
-                        } else {
+                        } else if (s.isNotEmpty()){
                             sb.append("☐").append(" ")
                             sb.append(if (s.startsWith("[]")) s.substring(2) else s).append("\n")
                         }

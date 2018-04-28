@@ -3,8 +3,8 @@ object Versions {
     val kotlin = "1.2.40"
     val android_support = "27.1.1"
     val constraint = "1.0.2"
-    val firebase = "11.8.0"
-    val firebase_ui = "3.2.1"
+    val firebase = "15.0.0"
+    val firebase_ui = "3.3.1"
 
     val junit = "4.12"
     val runner = "1.0.1"
@@ -22,6 +22,7 @@ object Versions {
     val rxkotlin = "2.2.0"
     val crashlytics = "2.9.1"
     val checklistview = "1.0.2"
+    val drag_dismiss_activity = "1.5.1"
 }
 
 object Deps {
@@ -70,6 +71,8 @@ object Deps {
 
     val multidex = "com.android.support:multidex:${Versions.multidex}"
     val checklistview = "com.gavincode:checklistview:${Versions.checklistview}"
+
+    val dismiss_activity = "com.klinkerapps:drag-dismiss-activity:${Versions.drag_dismiss_activity}"
 
     val espresso_core = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     val espresso_contrib = "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"

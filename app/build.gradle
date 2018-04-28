@@ -16,11 +16,11 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.gavincode.bujo"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 3
         versionName "1.2"
         multiDexEnabled true
@@ -78,6 +78,7 @@ dependencies {
     implementation Deps.gson
     implementation Deps.multidex
     implementation Deps.checklistview
+    implementation Deps.dismiss_activity
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner
     androidTestImplementation Deps.room_test
@@ -88,6 +89,3 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-repositories {
-    mavenCentral()
-}

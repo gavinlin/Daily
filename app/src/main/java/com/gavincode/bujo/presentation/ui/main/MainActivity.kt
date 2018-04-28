@@ -1,9 +1,11 @@
 package com.gavincode.bujo.presentation.ui.main
 
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.gavincode.bujo.R
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -20,17 +22,29 @@ class MainActivity: AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
+    @BindView(R.id.bottom_navigation)
+    lateinit var bottomNavigation: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val fragment = DailyPlanFragment.getInstance()
-        val toolbar: Toolbar = this.findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_container, fragment)
-                .commit()
+        ButterKnife.bind(this)
+        bottomNavigation.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.action_calendar -> {
+                    if (!(supportFragmentManager.findFragmentById(R.id.main_container) is DailyPlanFragment)) {
+                        val fragment = DailyPlanFragment.getInstance()
+                        supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit()
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                }
+            }
+            false
+        }
     }
 
 

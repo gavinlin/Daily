@@ -101,4 +101,8 @@ class BulletViewModel @Inject constructor(
         dailyBullet?.content = content
         dailyBulletLiveData.postValue(dailyBullet)
     }
+
+    fun setTitle(title: String) {
+        dailyBulletLiveData.value?.title = title
+    }
 }

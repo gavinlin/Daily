@@ -2,9 +2,9 @@ package com.gavincode.bujo.presentation.ui.main
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.firebase.ui.auth.viewmodel.SingleLiveEvent
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import com.gavincode.bujo.presentation.ui.BaseViewModel
+import com.gavincode.bujo.presentation.ui.SingleLiveEvent
 import com.gavincode.bujo.presentation.util.Message
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy

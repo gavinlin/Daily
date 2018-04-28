@@ -9,7 +9,10 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
+import android.text.Editable
 import android.view.*
+import butterknife.ButterKnife
+import butterknife.OnTextChanged
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.presentation.ui.Navigator
@@ -52,7 +55,9 @@ class BulletFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_bullet, container, false)
+        val view = inflater.inflate(R.layout.fragment_bullet, container, false)
+        ButterKnife.bind(this, view)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -180,5 +185,11 @@ class BulletFragment: Fragment() {
                     }
             bottomSheetDialog.show()
         }
+    }
+
+    @OnTextChanged(value = R.id.bullet_title,
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    fun afterTitleInput(editable: Editable) {
+        bulletViewModel.setTitle(editable.toString())
     }
 }

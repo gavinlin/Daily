@@ -21,6 +21,7 @@
         <activity android:name="com.gavincode.bujo.presentation.ui.main.MainActivity"/>
         <activity android:name="com.gavincode.bujo.presentation.ui.entry.SignInActivity"/>
         <activity android:name=".presentation.ui.bullet.BulletActivity"
+            android:theme="@style/DragDismissTheme"
             />
     </application>
 

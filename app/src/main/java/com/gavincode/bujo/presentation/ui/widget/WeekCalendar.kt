@@ -1,6 +1,7 @@
 package com.gavincode.bujo.presentation.ui.widget
 
 import android.animation.LayoutTransition
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -41,6 +42,7 @@ class WeekCalendar: LinearLayout {
     private var mCalendarPastDayTextColor: Int = 0
     private var mCalendarBackgroundColor: Int = 0
     private var mCalendarSelectedColor: Int = 0
+    var currentDayObserver: Observer<LocalDate>? = null
 
     constructor(context: Context) : super(context)
 
@@ -102,17 +104,21 @@ class WeekCalendar: LinearLayout {
                 }
                 .addTo(disposables)
 
-        CalendarManager.currentDayLiveData.observeForever({
-            it?.let {
-                handleDayChanged(it)
-            }
-        })
+        currentDayObserver = Observer {
+            it?.let { handleDayChanged(it) }
+        }
+
+        currentDayObserver?.let {
+            CalendarManager.currentDayLiveData.observeForever(it)
+        }
     }
 
 
 
     override fun onDetachedFromWindow() {
         disposables.dispose()
+        currentDayObserver?.let { CalendarManager.currentDayLiveData.removeObserver(it) }
+        currentDayObserver = null
         super.onDetachedFromWindow()
     }
 
