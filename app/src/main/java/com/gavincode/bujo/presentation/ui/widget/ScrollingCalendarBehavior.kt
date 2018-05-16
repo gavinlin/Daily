@@ -1,8 +1,8 @@
 package com.gavincode.bujo.presentation.ui.widget
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 
@@ -11,8 +11,9 @@ import android.view.MotionEvent
  */
 
 class ScrollingCalendarBehavior(context: Context, attributeSet: AttributeSet)
-    : AppBarLayout.Behavior(context, attributeSet) {
-    override fun onInterceptTouchEvent(parent: CoordinatorLayout?, child: AppBarLayout?, ev: MotionEvent?): Boolean {
-        return false
+    : com.google.android.material.appbar.AppBarLayout.Behavior(context, attributeSet) {
+
+    override fun onInterceptTouchEvent(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: com.google.android.material.appbar.AppBarLayout, ev: MotionEvent): Boolean {
+      return false
     }
 }

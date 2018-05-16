@@ -1,7 +1,7 @@
 package com.gavincode.bujo.data.db
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.runner.AndroidJUnit4
 import com.gavincode.bujo.data.model.AttachmentEntity
 import com.gavincode.bujo.data.model.DailyBulletEntity
 import org.junit.Rule

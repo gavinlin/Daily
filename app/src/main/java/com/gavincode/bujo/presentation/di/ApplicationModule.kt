@@ -1,6 +1,6 @@
 package com.gavincode.bujo.presentation.di
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.gavincode.bujo.BujoApplication
 import com.gavincode.bujo.data.db.AttachmentDao
 import com.gavincode.bujo.data.db.DailyBulletDao

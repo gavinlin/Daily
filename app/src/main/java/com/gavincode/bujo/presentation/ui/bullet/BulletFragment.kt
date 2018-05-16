@@ -1,35 +1,34 @@
 package com.gavincode.bujo.presentation.ui.bullet
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
-import android.support.v4.app.Fragment
 import android.text.Editable
-import android.view.*
-import butterknife.ButterKnife
-import butterknife.OnTextChanged
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.presentation.ui.Navigator
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_bullet.*
-import kotlinx.android.synthetic.main.view_bullet_content.*
 import javax.inject.Inject
 
 /**
  * Created by gavinlin on 20/3/18.
  */
 
-class BulletFragment: Fragment() {
+class BulletFragment: androidx.fragment.app.Fragment() {
 
     companion object {
 
-        fun newInstance(bulletId: String, date: Long): Fragment {
+        fun newInstance(bulletId: String, date: Long): androidx.fragment.app.Fragment {
             val bundle = Bundle()
             bundle.putString(Navigator.ARG_BULLET_ID, bulletId)
             bundle.putLong(Navigator.ARG_DATE_LONG, date)
@@ -43,6 +42,7 @@ class BulletFragment: Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var bulletViewModel: BulletViewModel
     lateinit var contentViewHelper: ContentViewHelper
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
@@ -56,7 +56,6 @@ class BulletFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_bullet, container, false)
-        ButterKnife.bind(this, view)
         return view
     }
 
@@ -69,6 +68,7 @@ class BulletFragment: Fragment() {
     }
 
     private fun prepareView() {
+
         bullet_menu.setOnClickListener {
             handleMenuClicked()
         }
@@ -76,15 +76,19 @@ class BulletFragment: Fragment() {
         bullet_add.setOnClickListener {
             handleAddClicked()
         }
-    }
 
-    private fun setContentViewTouchDelegate() {
-        bullet_content_parent_layout.post {
-            val actualArea = Rect()
-            bullet_content_parent_layout.getHitRect(actualArea)
-            val touchDelegate = TouchDelegate(actualArea, bullet_content_edit_text)
-            bullet_content_parent_layout.touchDelegate = touchDelegate
-        }
+        bullet_title.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                afterTitleInput(p0)
+            }
+
+        })
     }
 
     private fun bindViewModel() {
@@ -187,9 +191,7 @@ class BulletFragment: Fragment() {
         }
     }
 
-    @OnTextChanged(value = R.id.bullet_title,
-            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
-    fun afterTitleInput(editable: Editable) {
+    fun afterTitleInput(editable: Editable?) {
         bulletViewModel.setTitle(editable.toString())
     }
 }

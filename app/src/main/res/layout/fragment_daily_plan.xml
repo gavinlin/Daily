@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/daily_plan_root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".presentation.ui.main.MainActivity"
     >
+    <include
+        layout="@layout/view_calendar_toolbar"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <com.gavincode.bujo.presentation.ui.widget.WeekCalendar
             android:id="@+id/week_calendar_view"
             android:layout_height="@dimen/week_calendar_default_height"
@@ -21,13 +26,13 @@
             android:background="@drawable/calendar_background"
             app:calendarColor="@android:color/white"
             app:calendarCurrentDayTextColor="@color/calendar_text_current_day"
-            app:calendarDayTextColor="@color/colorPrimary"
+            app:calendarDayTextColor="@android:color/black"
             app:calendarPastDayTextColor="@android:color/darker_gray"
             app:elevation="5dp"
             android:translationZ="5dp"
             />
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipe_refresh_view"
             android:layout_width="match_parent"
@@ -38,14 +43,14 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/daily_list_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="4dp"
                     android:visibility="gone"
                     />
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/daily_plan_list_date_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -53,43 +58,20 @@
                     android:text="empty"
                     />
             </FrameLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
-        <RelativeLayout
-            android:id="@+id/daily_bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/white"
-            android:translationZ="20dp"
-            >
-            <ImageView
-                android:id="@+id/daily_camera_button"
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                android:visibility="gone"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                />
-            <ImageView
-                android:id="@+id/daily_list_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_list"
-                android:layout_toLeftOf="@id/daily_camera_button"
-                android:visibility="gone"
-                />
-            <TextView
-                android:id="@+id/daily_bullet_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:text="@string/add_note"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:paddingStart="20dp"
+                android:layout_margin="16dp"
+                app:rippleColor="@color/colorAccent"
+                android:src="@drawable/ic_add_white_24dp"
+                android:clickable="true"
+                android:focusable="true"
                 />
         </RelativeLayout>
     </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -3,10 +3,8 @@ package com.gavincode.bujo.presentation.ui.widget
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.res.Resources
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +24,7 @@ import java.util.*
 class WeeksAdapter(val today: LocalDate,
                    val dayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int,
                    val selectedTextColor: Int)
-    : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     companion object {
         const val FADE_DURATION: Long = 200
@@ -55,7 +53,7 @@ class WeeksAdapter(val today: LocalDate,
         holder?.bindWeek(weekItem, today)
     }
 
-    inner class WeekViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class WeekViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         private val mCells: MutableList<LinearLayout> = mutableListOf()
         private val monthLabel: TextView = view.findViewById(R.id.month_label)
         private val monthBackground: FrameLayout = view.findViewById(R.id.month_background)
@@ -184,8 +182,8 @@ class WeeksAdapter(val today: LocalDate,
                     if (dayItem.isSelected) {
                         dayView.setTextColor(selectedTextColor)
                         circleView.visibility = View.VISIBLE
-                        val drawable = circleView.background as GradientDrawable
-                        drawable.setStroke((1 * Resources.getSystem().displayMetrics.density).toInt(), dayTextColor)
+//                        val drawable = circleView.background as GradientDrawable
+//                        drawable.setStroke((1 * Resources.getSystem().displayMetrics.density).toInt(), dayTextColor)
                     }
 
                     //Check if the month label has to be displayed

@@ -1,31 +1,35 @@
 
 object Versions {
-    val kotlin = "1.2.40"
-    val android_support = "27.1.1"
+    val kotlin = "1.2.41"
+    val android_support = "28.0.0-alpha1"
     val constraint = "1.0.2"
     val firebase = "15.0.0"
     val firebase_ui = "3.3.1"
+    val firebase_ml = "15.0.0"
 
     val junit = "4.12"
     val runner = "1.0.1"
     val espresso = "3.0.1"
     val timber = "4.6.1"
-    val butter_knife = "8.8.1"
     val threetenabp = "1.0.5"
-    val dagger = "2.15"
+    val dagger = "2.16"
     val rxjava = "2.1.10"
     val rxandroid = "2.0.2"
-    val room = "1.0.0"
+    val room = "1.1.0"
     val gson = "2.8.2"
     val lifecycle = "1.1.1"
     val multidex = "1.0.1"
     val rxkotlin = "2.2.0"
     val crashlytics = "2.9.1"
     val checklistview = "1.0.2"
-    val drag_dismiss_activity = "1.5.1"
+    val navigation = "1.0.0-alpha01"
+    val material = "1.0.0-alpha1"
 }
 
 object Deps {
+    val material = "com.google.android.material:material:${Versions.material}"
+    val navigation_fragment = "android.arch.navigation:navigation-fragment:${Versions.navigation}"
+    val navigation_ui = "android.arch.navigation:navigation-ui:${Versions.navigation}"
     val support_appcomat_v7 = "com.android.support:appcompat-v7:${Versions.android_support}"
     val support_constraint = "com.android.support.constraint:constraint-layout:${Versions.constraint}"
     val support_design = "com.android.support:design:${Versions.android_support}"
@@ -36,6 +40,7 @@ object Deps {
     val firebase_core = "com.google.firebase:firebase-core:${Versions.firebase}"
     val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase}"
     val firebase_storage = "com.google.firebase:firebase-storage:${Versions.firebase}"
+    val firebase_ml_vision = "com.google.firebase:firebase-ml-vision:${Versions.firebase_ml}"
     val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
@@ -44,8 +49,6 @@ object Deps {
     val test_runner = "com.android.support.test:runner:${Versions.runner}"
     val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 
-    val butter_knife = "com.jakewharton:butterknife:${Versions.butter_knife}"
-    val butter_knife_compiler = "com.jakewharton:butterknife-compiler:${Versions.butter_knife}"
     val threetenabp = "com.jakewharton.threetenabp:threetenabp:${Versions.threetenabp}"
 
     val rxjava = "io.reactivex.rxjava2:rxjava:${Versions.rxjava}"
@@ -71,8 +74,6 @@ object Deps {
 
     val multidex = "com.android.support:multidex:${Versions.multidex}"
     val checklistview = "com.gavincode:checklistview:${Versions.checklistview}"
-
-    val dismiss_activity = "com.klinkerapps:drag-dismiss-activity:${Versions.drag_dismiss_activity}"
 
     val espresso_core = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     val espresso_contrib = "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"

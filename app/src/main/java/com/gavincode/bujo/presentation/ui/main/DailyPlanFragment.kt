@@ -1,20 +1,15 @@
 package com.gavincode.bujo.presentation.ui.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.*
-import android.widget.LinearLayout
-import butterknife.ButterKnife
-import butterknife.OnClick
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.presentation.ui.NavigateResultInfo
@@ -23,7 +18,6 @@ import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.widget.CalendarManager
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_daily_plan.*
-import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 /**
@@ -51,21 +45,12 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        val calendarManager = CalendarManager
-        val minDate = LocalDate.of(2017, 1, 1)
-//        val minDate = LocalDate.now().minusMonths(2).withDayOfMonth(1)
-        val maxDate = LocalDate.now().plusYears(1)
-        calendarManager.buildCal(minDate, maxDate)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
-        ButterKnife.bind(this, view)
-        val appBar = inflater.inflate(R.layout.view_calendar_toolbar, null, false)
-        appBar.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        (view as CoordinatorLayout).addView(appBar)
-        val toolbar = appBar.findViewById<Toolbar>(R.id.toolbar)
-        (activity as AppCompatActivity)?.setSupportActionBar(toolbar)
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
         return view
     }
 
@@ -79,14 +64,27 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
             it?.run { dailyListViewModel.setDate(this) }
         })
 
+        add_fab.setOnClickListener {
+            handleAddClicked()
+        }
+
         bindView()
+    }
+
+    private fun handleAddClicked() {
+        val intent = Intent(activity, BulletActivity::class.java)
+        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
+        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
+//        val addTaskFragment = AddTaskFragment.getInstance()
+//        addTaskFragment.show(fragmentManager, "addTask")
+
     }
 
     private fun bindView() {
         dailyListViewModel =
                 ViewModelProviders.of(this, viewModelFactory)
                         .get(DailyListViewModel::class.java)
-        daily_list_recycler_view.layoutManager = LinearLayoutManager(context)
+        daily_list_recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         daily_list_recycler_view.adapter = DailyListAdapter()
         (daily_list_recycler_view.adapter as DailyListAdapter).dailyListOnClickListener = this
         daily_plan_list_date_view.visibility = View.VISIBLE
@@ -139,12 +137,12 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
                 .updateList(list)
     }
 
-    @OnClick(R.id.daily_bullet_button)
-    fun onBulletClicked() {
-        val intent = Intent(activity, BulletActivity::class.java)
-        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
-        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
-    }
+//    @OnClick(R.id.daily_bullet_button)
+//    fun onBulletClicked() {
+//        val intent = Intent(activity, BulletActivity::class.java)
+//        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
+//        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.run {

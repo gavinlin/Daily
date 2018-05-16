@@ -1,11 +1,11 @@
 package com.gavincode.bujo.presentation.ui.widget
 
 import android.animation.LayoutTransition
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,8 +26,6 @@ import java.util.*
  */
 
 class WeekCalendar: LinearLayout {
-
-    private lateinit var weeksAdapter: WeeksAdapter
 
     var selectedDay: DayItem? = null
 
@@ -71,11 +69,13 @@ class WeekCalendar: LinearLayout {
         super.onFinishInflate()
 
         listViewWeeks = findViewById(R.id.list_week)
-        listViewWeeks.layoutManager = LinearLayoutManager(context)
-        listViewWeeks.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        listViewWeeks.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        listViewWeeks.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL))
         listViewWeeks.setHasFixedSize(true)
         listViewWeeks.itemAnimator = null
         listViewWeeks.setSnapEnabled(true)
+        setUpAdapter(CalendarManager.today, CalendarManager.weeks, mCalendarDayTextColor, mCalendarCurrentDayColor,
+                mCalendarPastDayTextColor, mCalendarSelectedColor)
         layoutTransition = LayoutTransition()
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
@@ -143,7 +143,7 @@ class WeekCalendar: LinearLayout {
 
     private fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
         val currentWeekIndex = getWeekIndexFromDay(date)
-        if ((listViewWeeks.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != currentWeekIndex) {
+        if ((listViewWeeks.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition() != currentWeekIndex) {
             listViewWeeks.post({
                 scrollToPosition(currentWeekIndex)
             })
@@ -179,12 +179,12 @@ class WeekCalendar: LinearLayout {
 
     private fun scrollToPosition(targetPosition: Int) {
         Timber.i("target position is $targetPosition")
-        (listViewWeeks.layoutManager as LinearLayoutManager)
+        (listViewWeeks.layoutManager as androidx.recyclerview.widget.LinearLayoutManager)
                 .scrollToPositionWithOffset(targetPosition, 0)
     }
 
     private fun updateItemAtPosition(position: Int) {
-        listViewWeeks.adapter.notifyItemChanged(position)
+        listViewWeeks.adapter?.notifyItemChanged(position)
     }
 
     private fun updateSelectedDay(dayItem: DayItem) {
@@ -210,5 +210,4 @@ class WeekCalendar: LinearLayout {
     private fun getWeekIndexFromDay(day: LocalDate): Int {
         return ChronoUnit.WEEKS.between(CalendarManager.days.first().date, day).toInt()
     }
-
 }

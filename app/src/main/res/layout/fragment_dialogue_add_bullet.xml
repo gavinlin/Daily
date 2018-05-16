@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/add_task_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/add_task_date_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            app:chipText="Fri, May 11 2018"
+            app:chipIcon="@drawable/ic_insert_invitation_black_16dp"
+            app:closeIconEnabled="true"
+            android:layout_below="@id/add_task_edit_text"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/add_task_date_chip"
+            >
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/add_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_circle_black_24dp"
+                />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/list_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_list_black_24dp"
+                android:visibility="gone"
+                />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/date_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_insert_invitation_black_24dp"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

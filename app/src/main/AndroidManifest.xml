@@ -18,10 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gavincode.bujo.presentation.ui.main.MainActivity"/>
+        <activity android:name="com.gavincode.bujo.presentation.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            />
         <activity android:name="com.gavincode.bujo.presentation.ui.entry.SignInActivity"/>
         <activity android:name=".presentation.ui.bullet.BulletActivity"
-            android:theme="@style/DragDismissTheme"
             />
     </application>
 

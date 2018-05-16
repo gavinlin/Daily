@@ -1,9 +1,9 @@
 package com.gavincode.bujo.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
 import com.gavincode.bujo.data.model.AttachmentEntity
 
 /**

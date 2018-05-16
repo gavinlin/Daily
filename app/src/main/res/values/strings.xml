@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Daily</string>
 
+    <string name="setting_title">Setting</string>
     <string name="bullet_title_hint">What you want to do?</string>
     <string name="bullet_content_hint">Content…</string>
     <string name="dialog_delete">Delete</string>

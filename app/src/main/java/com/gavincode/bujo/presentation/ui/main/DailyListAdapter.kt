@@ -1,7 +1,7 @@
 package com.gavincode.bujo.presentation.ui.main
 
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 
 
-class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolder>() {
+class DailyListAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<DailyListAdapter.DailyListViewHolder>() {
 
     var list: MutableList<DailyBullet> = mutableListOf()
     var dailyListOnClickListener: DailyListClickListener? = null
@@ -61,7 +61,7 @@ class DailyListAdapter: RecyclerView.Adapter<DailyListAdapter.DailyListViewHolde
         diffUtil.dispatchUpdatesTo(this)
     }
 
-    class DailyListViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class DailyListViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val titleView: TextView = view.findViewById(R.id.list_item_bullet_title)
         val contentView: TextView = view.findViewById(R.id.list_item_bullet_content)
     }

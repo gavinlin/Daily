@@ -1,7 +1,7 @@
 package com.gavincode.bujo.presentation.ui.bullet
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import com.gavincode.bujo.presentation.ui.BaseViewModel

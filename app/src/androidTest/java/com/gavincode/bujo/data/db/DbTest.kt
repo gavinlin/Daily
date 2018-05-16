@@ -1,7 +1,7 @@
 package com.gavincode.bujo.data.db
 
-import android.arch.persistence.room.Room
-import android.support.test.InstrumentationRegistry
+import androidx.sqlite.room.Room
+import androidx.test.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
 

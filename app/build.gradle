@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
-
+apply plugin: 'androidx.navigation.safeargs'
 
 repositories {
     maven {
@@ -16,15 +16,15 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 'android-P'
     defaultConfig {
         applicationId "com.gavincode.bujo"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 3
         versionName "1.2"
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -47,6 +47,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation Deps.material
+    implementation Deps.navigation_fragment
+    implementation Deps.navigation_ui
     implementation Deps.support_appcomat_v7
     implementation Deps.support_constraint
     implementation Deps.support_design
@@ -56,11 +59,10 @@ dependencies {
     implementation Deps.firebase_core
     implementation Deps.firebase_firestore
     implementation Deps.firebase_storage
+    implementation Deps.firebase_ml_vision
     implementation Deps.crashlytics
     implementation Deps.threetenabp
     implementation Deps.timber
-    implementation Deps.butter_knife
-    kapt Deps.butter_knife_compiler
     implementation Deps.dagger
     kapt Deps.dagger_compiler
     implementation Deps.dagger_android
@@ -78,7 +80,6 @@ dependencies {
     implementation Deps.gson
     implementation Deps.multidex
     implementation Deps.checklistview
-    implementation Deps.dismiss_activity
     testImplementation Deps.test_junit
     androidTestImplementation Deps.test_runner
     androidTestImplementation Deps.room_test

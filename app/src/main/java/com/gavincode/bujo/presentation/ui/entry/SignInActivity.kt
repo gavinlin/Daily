@@ -2,14 +2,13 @@ package com.gavincode.bujo.presentation.ui.entry
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import butterknife.ButterKnife
-import butterknife.OnClick
+import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -26,11 +25,11 @@ class SignInActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
-        ButterKnife.bind(this)
+        sign_in_button.setOnClickListener {
+            onClick()
+        }
     }
 
-
-    @OnClick(R.id.sign_in_button)
     fun onClick() {
         val providers = Arrays.asList(
                 AuthUI.IdpConfig.GoogleBuilder().build()

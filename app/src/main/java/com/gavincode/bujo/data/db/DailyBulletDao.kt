@@ -1,6 +1,6 @@
 package com.gavincode.bujo.data.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.gavincode.bujo.data.model.DailyBulletEntity
 import com.gavincode.bujo.data.model.DailyBulletWithAttachment
 import io.reactivex.Maybe

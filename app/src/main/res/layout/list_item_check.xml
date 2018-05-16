@@ -7,7 +7,7 @@
         android:id="@+id/check_box_container"
         android:layout_width="50dp"
         android:layout_height="match_parent">
-        <android.support.v7.widget.AppCompatCheckBox
+        <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/check_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

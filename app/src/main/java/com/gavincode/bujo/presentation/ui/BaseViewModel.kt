@@ -1,6 +1,6 @@
 package com.gavincode.bujo.presentation.ui
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 

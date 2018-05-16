@@ -1,7 +1,7 @@
 package com.gavincode.bujo.presentation.ui.widget
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.gavincode.bujo.presentation.util.CalendarBus
@@ -11,7 +11,7 @@ import timber.log.Timber
  * Created by gavinlin on 14/3/18.
  */
 
-class WeekListView: RecyclerView {
+class WeekListView: androidx.recyclerview.widget.RecyclerView {
 
     var mUserScrolling: Boolean = false
     var mScrolling: Boolean = false
@@ -36,14 +36,14 @@ class WeekListView: RecyclerView {
 
     // region Private methods
 
-    private val mScrollListener = object : RecyclerView.OnScrollListener() {
+    private val mScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-        override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+        override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             val weeksAdapter = adapter as WeeksAdapter
 
             when (newState) {
-                RecyclerView.SCROLL_STATE_IDLE -> {
+                androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> {
                     Timber.i("scroll state idle")
                     if (mUserScrolling) {
                         scrollToView(getCenterView())
@@ -54,7 +54,7 @@ class WeekListView: RecyclerView {
                     mScrolling = false
                 }
             // If scroll is caused by a touch (scroll touch, not any touch)
-                RecyclerView.SCROLL_STATE_DRAGGING -> {
+                androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> {
 //                    BusProvider.getInstance().send(Events.CalendarScrolledEvent())
                     CalendarBus.send(CalendarEvent.CalendarScrollEvent())
                     // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
@@ -65,7 +65,7 @@ class WeekListView: RecyclerView {
                     weeksAdapter.dragging = true
                     Timber.i("scroll state  dragging")
                 }
-                RecyclerView.SCROLL_STATE_SETTLING -> {
+                androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING -> {
                     // The user's finger is not touching the list anymore, no need
                     // for any alpha animation then
                     weeksAdapter.alphaSet = true

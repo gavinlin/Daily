@@ -1,6 +1,6 @@
 package com.gavincode.bujo.presentation.ui
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 
 object Navigator {
