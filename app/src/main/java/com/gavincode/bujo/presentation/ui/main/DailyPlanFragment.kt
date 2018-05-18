@@ -72,11 +72,11 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     }
 
     private fun handleAddClicked() {
-        val intent = Intent(activity, BulletActivity::class.java)
-        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
-        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
-//        val addTaskFragment = AddTaskFragment.getInstance()
-//        addTaskFragment.show(fragmentManager, "addTask")
+//        val intent = Intent(activity, BulletActivity::class.java)
+//        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
+//        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
+        val addTaskFragment = AddTaskFragment.getInstance()
+        addTaskFragment.show(fragmentManager, "addTask")
 
     }
 

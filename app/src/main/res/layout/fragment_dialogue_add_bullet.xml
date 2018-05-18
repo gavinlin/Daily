@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    >
-    <LinearLayout
+    android:layout_height="match_parent" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/shape_dialog_background"
         >
-
         <EditText
             android:id="@+id/add_task_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
         <com.google.android.material.chip.Chip
             android:id="@+id/add_task_date_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_task_edit_text"
             app:chipText="Fri, May 11 2018"
             app:chipIcon="@drawable/ic_insert_invitation_black_16dp"
             app:closeIconEnabled="true"
@@ -33,6 +36,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/add_task_date_chip"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_task_date_chip"
             >
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/add_image_view"
@@ -55,5 +60,5 @@
                 android:visibility="gone"
                 />
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.gavincode.bujo.presentation.ui.main.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
             />
         <activity android:name="com.gavincode.bujo.presentation.ui.entry.SignInActivity"/>
