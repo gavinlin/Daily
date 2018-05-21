@@ -105,4 +105,8 @@ class BulletViewModel @Inject constructor(
     fun setTitle(title: String) {
         dailyBulletLiveData.value?.title = title
     }
+
+    fun setDate(newDate: LocalDate?) {
+        dailyBulletLiveData.value?.date = newDate ?: LocalDate.MIN
+    }
 }

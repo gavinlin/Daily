@@ -1,9 +1,7 @@
 package com.gavincode.bujo.presentation.ui.bullet
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import android.transition.TransitionInflater
 import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.widget.ElasticDragDismissFrameLayout
@@ -23,6 +21,8 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
+    var systemChromeFader: ElasticDragDismissFrameLayout.SystemChromeFader? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -36,14 +36,15 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
                 .commit()
         draggable_frame.addListener(object: ElasticDragDismissFrameLayout.SystemChromeFader(this) {
             override fun onDragDismissed() {
-                if (draggable_frame.translationY > 0) {
-                    getWindow().setReturnTransition(
-                            TransitionInflater.from(this@BulletActivity)
-                                    .inflateTransition(R.transition.bullet_return_downward))
-                }
-                finishAfterTransition()
+//                if (draggable_frame.translationY > 0) {
+//                    getWindow().setReturnTransition(
+//                            TransitionInflater.from(this@BulletActivity)
+//                                    .inflateTransition(R.transition.bullet_return_downward))
+//                }
+//                finishAfterTransition()
             }
         })
+        systemChromeFader = ElasticDragDismissFrameLayout.SystemChromeFader(this)
     }
 
     private fun setUpActionBar() {
@@ -60,5 +61,15 @@ class BulletActivity: AppCompatActivity(), HasSupportFragmentInjector{
         (supportFragmentManager
                 .findFragmentById(R.id.bullet_container) as BulletFragment?)
                 ?.handleBack() ?: super.onBackPressed()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        draggable_frame.addListener(systemChromeFader)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        draggable_frame.removeListener(systemChromeFader)
     }
 }

@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -48,6 +49,7 @@ class AddTaskFragment: BottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var bulletViewModel: BulletViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,15 +95,10 @@ class AddTaskFragment: BottomSheetDialogFragment() {
         val date = arguments?.getLong(Navigator.ARG_DATE_LONG) ?: 0
         if (date != 0.toLong()) {
             val localDate = LocalDate.ofEpochDay(date)
-            add_task_date_chip.visibility = View.VISIBLE
-            add_task_date_chip.chipText =
-                    localDate.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy"))
-            add_task_date_chip.setOnCloseIconClickListener {
-                it.visibility = View.GONE
-            }
+            setDate(localDate)
         }
 
-        val bulletViewModel = ViewModelProviders.of(this, viewModelFactory)
+        bulletViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(BulletViewModel::class.java)
 
         bulletViewModel.newDailyBullet(arguments?.getLong(Navigator.ARG_DATE_LONG))
@@ -133,6 +130,28 @@ class AddTaskFragment: BottomSheetDialogFragment() {
             }
 
         })
+
+        val localDate = LocalDate.ofEpochDay(date)
+
+        date_image_view.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(context,
+                    DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
+                        val newDate = LocalDate.of(year, monthOfYear, dayOfMonth)
+                        setDate(newDate)
+                        bulletViewModel.setDate(newDate)
+                    }, localDate.year, localDate.monthValue, localDate.dayOfMonth)
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setDate(localDate: LocalDate) {
+        add_task_date_chip.visibility = View.VISIBLE
+        add_task_date_chip.chipText =
+                localDate.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy"))
+        add_task_date_chip.setOnCloseIconClickListener {
+            it.visibility = View.GONE
+            bulletViewModel.setDate(LocalDate.MIN)
+        }
     }
 
     private fun setupAnimation() {
@@ -153,8 +172,6 @@ class AddTaskFragment: BottomSheetDialogFragment() {
                     add_image_view.imageTintList = ColorStateList.valueOf(animatedValue)
                 }
                 val rotateAnimator = ObjectAnimator.ofFloat(add_image_view, "rotation", 45f, 0f)
-                backgroundColorAnimator.setDuration(250)
-                        .start()
                 val moveAnimator = ObjectAnimator.ofFloat(list_image_view, "translationX", addImageViewOriginX - listImageViewOriginX)
                 val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view, "translationX", addImageViewOriginX - dateImageViewOriginX)
                 val animatorSet = AnimatorSet()
@@ -195,8 +212,6 @@ class AddTaskFragment: BottomSheetDialogFragment() {
                     add_image_view.imageTintList = ColorStateList.valueOf(animatedValue)
                 }
                 val rotateAnimator = ObjectAnimator.ofFloat(add_image_view, "rotation", 0f, 45f)
-                backgroundColorAnimator.setDuration(250)
-                        .start()
                 val moveAnimator = ObjectAnimator.ofFloat(list_image_view, "translationX", listImageViewOriginX - addImageViewOriginX)
                 val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view, "translationX", dateImageViewOriginX - addImageViewOriginX)
                 val alphaAnimator = ValueAnimator.ofInt(0, 255)

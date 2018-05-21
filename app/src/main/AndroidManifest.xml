@@ -24,6 +24,7 @@
             />
         <activity android:name="com.gavincode.bujo.presentation.ui.entry.SignInActivity"/>
         <activity android:name=".presentation.ui.bullet.BulletActivity"
+            android:theme="@style/Translucent"
             />
     </application>
 

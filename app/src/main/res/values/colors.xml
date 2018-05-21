@@ -4,8 +4,11 @@
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#B59EFF</color>
 
+    <color name="scrim">#99323232</color>
+
     <color name="calendar_text_default">#000000</color>
     <color name="calendar_month_transparent_background">#66FFFFFF</color>
     <color name="calendar_divider_color">#F3F3F3</color>
     <color name="calendar_text_current_day">#000000</color>
+
 </resources>
