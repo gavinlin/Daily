@@ -75,7 +75,8 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
 //        val intent = Intent(activity, BulletActivity::class.java)
 //        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
 //        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
-        val addTaskFragment = AddTaskFragment.getInstance()
+        val addTaskFragment = AddTaskFragment.getInstance(CalendarManager.currentDayLiveData.value?.toEpochDay() ?: 0)
+        addTaskFragment.setTargetFragment(this, Navigator.REQ_BULLET_ADD)
         addTaskFragment.show(fragmentManager, "addTask")
 
     }
@@ -136,13 +137,6 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
         (daily_list_recycler_view.adapter as DailyListAdapter)
                 .updateList(list)
     }
-
-//    @OnClick(R.id.daily_bullet_button)
-//    fun onBulletClicked() {
-//        val intent = Intent(activity, BulletActivity::class.java)
-//        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
-//        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.run {

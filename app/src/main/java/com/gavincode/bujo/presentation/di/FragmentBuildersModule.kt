@@ -1,6 +1,7 @@
 package com.gavincode.bujo.presentation.di
 
 import com.gavincode.bujo.presentation.ui.bullet.BulletFragment
+import com.gavincode.bujo.presentation.ui.main.AddTaskFragment
 import com.gavincode.bujo.presentation.ui.main.DailyPlanFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -16,4 +17,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDailyPlanFragment(): DailyPlanFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAddTaskFragment(): AddTaskFragment
 }

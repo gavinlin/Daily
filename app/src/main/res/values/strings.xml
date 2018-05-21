@@ -8,4 +8,5 @@
     <string name="dialog_change_to_list">List</string>
     <string name="dialog_cancel_list">Cancel List</string>
     <string name="add_note">Write a note&#8230;</string>
+    <string name="save">SAVE</string>
 </resources>
