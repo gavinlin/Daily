@@ -29,6 +29,7 @@
                 android:nextFocusLeft="@id/bullet_title"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
+                style="?attr/textAppearanceHeadline6"
                 />
 
             <FrameLayout
