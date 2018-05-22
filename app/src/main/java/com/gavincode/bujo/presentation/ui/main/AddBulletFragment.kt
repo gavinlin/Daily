@@ -34,14 +34,14 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
-class AddTaskFragment: BottomSheetDialogFragment() {
+class AddBulletFragment: BottomSheetDialogFragment() {
 
     companion object {
 
         fun getInstance(date: Long): BottomSheetDialogFragment{
             val args = Bundle()
             args.putLong(Navigator.ARG_DATE_LONG, date)
-            val fragment = AddTaskFragment()
+            val fragment = AddBulletFragment()
             fragment.arguments = args
             return fragment
         }
@@ -154,6 +154,7 @@ class AddTaskFragment: BottomSheetDialogFragment() {
         }
     }
 
+    //TODO state should stay in view model
     private fun setupAnimation() {
 
         var clicked = false
@@ -165,15 +166,19 @@ class AddTaskFragment: BottomSheetDialogFragment() {
         add_image_view.setOnClickListener {
             clicked = !clicked
             if (!clicked) {
-                val backgroundColorAnimator = ObjectAnimator.ofArgb(add_image_view, "backgroundTint", ContextCompat.getColor(context!!, android.R.color.black),
+                val backgroundColorAnimator = ObjectAnimator.ofArgb(add_image_view,
+                        "backgroundTint", ContextCompat.getColor(context!!, android.R.color.black),
                         ContextCompat.getColor(context!!, R.color.colorAccent))
                 backgroundColorAnimator.addUpdateListener {
                     val animatedValue = it.animatedValue as Int
                     add_image_view.imageTintList = ColorStateList.valueOf(animatedValue)
                 }
-                val rotateAnimator = ObjectAnimator.ofFloat(add_image_view, "rotation", 45f, 0f)
-                val moveAnimator = ObjectAnimator.ofFloat(list_image_view, "translationX", addImageViewOriginX - listImageViewOriginX)
-                val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view, "translationX", addImageViewOriginX - dateImageViewOriginX)
+                val rotateAnimator = ObjectAnimator.ofFloat(add_image_view,
+                        "rotation", 45f, 0f)
+                val moveAnimator = ObjectAnimator.ofFloat(list_image_view,
+                        "translationX", addImageViewOriginX - listImageViewOriginX)
+                val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view,
+                        "translationX", addImageViewOriginX - dateImageViewOriginX)
                 val animatorSet = AnimatorSet()
                 val alphaAnimator = ValueAnimator.ofInt(255, 0)
                 alphaAnimator.interpolator = DecelerateInterpolator()
@@ -205,15 +210,19 @@ class AddTaskFragment: BottomSheetDialogFragment() {
                 animatorSet.start()
 
             } else {
-                val backgroundColorAnimator = ObjectAnimator.ofArgb(add_image_view, "backgroundTint", ContextCompat.getColor(context!!, R.color.colorAccent),
+                val backgroundColorAnimator = ObjectAnimator.ofArgb(add_image_view,
+                        "backgroundTint", ContextCompat.getColor(context!!, R.color.colorAccent),
                         ContextCompat.getColor(context!!, android.R.color.black))
                 backgroundColorAnimator.addUpdateListener {
                     val animatedValue = it.animatedValue as Int
                     add_image_view.imageTintList = ColorStateList.valueOf(animatedValue)
                 }
-                val rotateAnimator = ObjectAnimator.ofFloat(add_image_view, "rotation", 0f, 45f)
-                val moveAnimator = ObjectAnimator.ofFloat(list_image_view, "translationX", listImageViewOriginX - addImageViewOriginX)
-                val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view, "translationX", dateImageViewOriginX - addImageViewOriginX)
+                val rotateAnimator = ObjectAnimator.ofFloat(add_image_view,
+                        "rotation", 0f, 45f)
+                val moveAnimator = ObjectAnimator.ofFloat(list_image_view,
+                        "translationX", listImageViewOriginX - addImageViewOriginX)
+                val moveAnimator2 = ObjectAnimator.ofFloat(date_image_view,
+                        "translationX", dateImageViewOriginX - addImageViewOriginX)
                 val alphaAnimator = ValueAnimator.ofInt(0, 255)
                 alphaAnimator.interpolator = DecelerateInterpolator()
                 alphaAnimator.addUpdateListener {

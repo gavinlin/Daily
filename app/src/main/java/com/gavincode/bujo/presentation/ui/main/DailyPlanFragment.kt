@@ -75,7 +75,7 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
 //        val intent = Intent(activity, BulletActivity::class.java)
 //        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
 //        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
-        val addTaskFragment = AddTaskFragment.getInstance(CalendarManager.currentDayLiveData.value?.toEpochDay() ?: 0)
+        val addTaskFragment = AddBulletFragment.getInstance(CalendarManager.currentDayLiveData.value?.toEpochDay() ?: 0)
         addTaskFragment.setTargetFragment(this, Navigator.REQ_BULLET_ADD)
         addTaskFragment.show(fragmentManager, "addTask")
 
