@@ -1,16 +1,15 @@
 package com.gavincode.bujo.presentation.ui.widget
 
 import android.animation.LayoutTransition
-import androidx.lifecycle.Observer
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gavincode.bujo.R
 import com.gavincode.bujo.presentation.util.CalendarBus
 import com.gavincode.bujo.presentation.util.duration
@@ -19,7 +18,6 @@ import io.reactivex.rxkotlin.addTo
 import org.threeten.bp.LocalDate
 import org.threeten.bp.temporal.ChronoUnit
 import timber.log.Timber
-import java.util.*
 
 /**
  * Created by gavinlin on 12/3/18.
@@ -123,8 +121,7 @@ class WeekCalendar: LinearLayout {
     }
 
     private fun handleDayChanged(day: LocalDate) {
-        scrollToDate(day, CalendarManager.weeks,
-                CalendarManager.locale)
+        scrollToDate(day)
         collapseCalendarView()
 
         val dayItem = CalendarManager.days[Math.abs(CalendarManager.days.first().date.duration(day)).toInt()]
@@ -138,10 +135,10 @@ class WeekCalendar: LinearLayout {
 
         setUpAdapter(today, weeks, mCalendarDayTextColor, mCalendarCurrentDayColor,
                 mCalendarPastDayTextColor, mCalendarSelectedColor)
-        scrollToDate(today, weeks, locale)
+        scrollToDate(CalendarManager.currentDayLiveData.value ?: today)
     }
 
-    private fun scrollToDate(date: LocalDate, weeks: List<WeekItem>, locale: Locale) {
+    private fun scrollToDate(date: LocalDate) {
         val currentWeekIndex = getWeekIndexFromDay(date)
         if ((listViewWeeks.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition() != currentWeekIndex) {
             listViewWeeks.post({
