@@ -19,6 +19,10 @@ import javax.inject.Singleton
 @Module(includes = [ViewModelModule::class])
 class ApplicationModule {
 
+    companion object {
+        const val DB_NAME = "journal.db"
+    }
+
     @Provides
     @Singleton
     fun provideDailyBulletRepository(db: Journal, dailyBulletDao: DailyBulletDao, attachmentDao: AttachmentDao)
@@ -30,7 +34,7 @@ class ApplicationModule {
     @Singleton
     fun provideRoomDatabase(application: BujoApplication): Journal {
         return Room.databaseBuilder(application,
-                Journal::class.java, "journal.db")
+                Journal::class.java, DB_NAME)
                 .addMigrations(JournalMigration.MIGRATION_1_2)
                 .build()
     }

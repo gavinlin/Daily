@@ -50,6 +50,7 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_plan, container, false)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = getString(R.string.inbox)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         return view
     }
@@ -72,9 +73,6 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     }
 
     private fun handleAddClicked() {
-//        val intent = Intent(activity, BulletActivity::class.java)
-//        intent.putExtra(Navigator.ARG_DATE_LONG, CalendarManager.currentDayLiveData.value?.toEpochDay())
-//        startActivityForResult(intent, Navigator.REQ_BULLET_ADD)
         val addTaskFragment = AddBulletFragment.getInstance(CalendarManager.currentDayLiveData.value?.toEpochDay() ?: 0)
         addTaskFragment.setTargetFragment(this, Navigator.REQ_BULLET_ADD)
         addTaskFragment.show(fragmentManager, "addTask")
@@ -172,7 +170,7 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
     }
 
     // DailyListClickListener
-    override fun onClick(bulletId: String) {
+    override fun onClick(view: View, bulletId: String) {
         val intent = Intent(activity, BulletActivity::class.java)
         intent.putExtra(Navigator.ARG_BULLET_ID, bulletId)
         startActivityForResult(intent, Navigator.REQ_BULLET_EDIT)

@@ -65,11 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="16dp"
-                app:rippleColor="@color/colorAccent"
+                android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_add_white_24dp"
-                android:clickable="true"
-                android:focusable="true"
                 />
         </RelativeLayout>
     </RelativeLayout>

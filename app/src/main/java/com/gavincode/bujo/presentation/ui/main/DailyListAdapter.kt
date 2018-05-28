@@ -1,11 +1,10 @@
 package com.gavincode.bujo.presentation.ui.main
 
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 
@@ -18,7 +17,7 @@ class DailyListAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<DailyL
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewHolder =  DailyListViewHolder(inflater.inflate(R.layout.list_item_daily_bullet, parent, false))
-        viewHolder.itemView.setOnClickListener { dailyListOnClickListener?.onClick(list[viewHolder.adapterPosition].id) }
+        viewHolder.itemView.setOnClickListener { dailyListOnClickListener?.onClick(viewHolder.itemView, list[viewHolder.adapterPosition].id) }
         return viewHolder
     }
 

@@ -52,7 +52,6 @@ dependencies {
     implementation Deps.navigation_ui
     implementation Deps.support_appcomat_v7
     implementation Deps.support_constraint
-    implementation Deps.support_design
     implementation Deps.support_recycler_view
     implementation Deps.support_card_view
     implementation Deps.firebase_ui_auth

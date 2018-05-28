@@ -11,6 +11,7 @@ import com.gavincode.bujo.domain.repository.DailyBulletRepository
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import org.threeten.bp.LocalDate
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,6 +25,7 @@ class DailyBulletRepositoryImpl @Inject constructor(
         private val attachmentDao: AttachmentDao): DailyBulletRepository {
 
     override fun getDailyBullets(date: LocalDate): Maybe<List<DailyBullet>> {
+        Timber.i("get daily bullets " + date.year)
         return dailyBulletDao.loadByDate(date.toEpochDay())
                 .map({DailyBulletMapper.toDailyBulletList(it)})
     }
@@ -35,6 +37,7 @@ class DailyBulletRepositoryImpl @Inject constructor(
     }
 
     override fun updateDailyBullet(dailyBullet: DailyBullet): Completable {
+        Timber.i("update daily bullets " + dailyBullet.date.year)
         return Completable.create({
             dailyBullet.attachments?.let {
                 it.forEach {

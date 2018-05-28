@@ -93,13 +93,16 @@ class AddBulletFragment: BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val date = arguments?.getLong(Navigator.ARG_DATE_LONG) ?: 0
-        if (date != 0.toLong()) {
-            val localDate = LocalDate.ofEpochDay(date)
-            setDate(localDate)
-        }
 
         bulletViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(BulletViewModel::class.java)
+
+        if (date != LocalDate.MIN.toEpochDay()) {
+            val localDate = LocalDate.ofEpochDay(date)
+            setDate(localDate)
+        } else {
+            bulletViewModel.setDate(LocalDate.MIN)
+        }
 
         bulletViewModel.newDailyBullet(arguments?.getLong(Navigator.ARG_DATE_LONG))
         bulletViewModel.getDailyBulletState().observe(

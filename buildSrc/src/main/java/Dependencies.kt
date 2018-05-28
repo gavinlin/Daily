@@ -32,7 +32,6 @@ object Deps {
     val navigation_ui = "android.arch.navigation:navigation-ui:${Versions.navigation}"
     val support_appcomat_v7 = "com.android.support:appcompat-v7:${Versions.android_support}"
     val support_constraint = "com.android.support.constraint:constraint-layout:${Versions.constraint}"
-    val support_design = "com.android.support:design:${Versions.android_support}"
     val support_recycler_view = "com.android.support:recyclerview-v7:${Versions.android_support}"
     val support_card_view = "com.android.support:cardview-v7:${Versions.android_support}"
 

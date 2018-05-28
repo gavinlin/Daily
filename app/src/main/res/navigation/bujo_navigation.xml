@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:startDestination="@+id/launcher_home"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/inboxFragment"
   >
-  <activity
-      android:id="@+id/launcher_home"
-      android:name="com.gavincode.bujo.presentation.ui.main.MainActivity"
-    />
+
+  <fragment
+      android:id="@+id/inboxFragment"
+      android:name="com.gavincode.bujo.presentation.ui.inbox.InboxFragment"
+      android:label="InboxFragment"
+      tools:layout="@layout/fragment_inbox"
+      />
+  <fragment
+      android:id="@+id/settingFragment"
+      android:name="com.gavincode.bujo.presentation.ui.setting.SettingFragment"
+      android:label="SettingFragment"
+      tools:layout="@layout/fragment_setting"
+      />
+  <fragment
+      android:id="@+id/dailyPlanFragment"
+      android:name="com.gavincode.bujo.presentation.ui.main.DailyPlanFragment"
+      android:label="fragment_daily_plan"
+      tools:layout="@layout/fragment_daily_plan" />
 </navigation>

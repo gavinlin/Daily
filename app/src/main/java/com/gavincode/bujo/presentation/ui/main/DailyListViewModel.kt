@@ -10,6 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -35,20 +36,24 @@ class DailyListViewModel @Inject constructor(
     fun fetchLiveData() {
         dateLiveData.value?.apply {
             uiModelLiveData.postValue(DailyListUiModel.Loading())
+            Timber.i("fetch " + year)
             dailyBulletRepository.getDailyBullets(this)
                     .observeOn(Schedulers.io())
                     .subscribeOn(Schedulers.io())
                     .subscribeBy(
                             onSuccess = {
+                                Timber.i("fetch daily bullets size ${it.size}")
                                 when (it.size) {
                                     0    -> uiModelLiveData.postValue(DailyListUiModel.Empty ())
                                     else -> uiModelLiveData.postValue(DailyListUiModel.DailyBullets(it))
                                 }
                             },
                             onComplete = {
+                                Timber.e("on Complete")
                                 uiModelLiveData.postValue(DailyListUiModel.Empty())
                             },
                             onError = {
+                                it.printStackTrace()
                                 uiModelLiveData.postValue(DailyListUiModel.Idle())
                                 handleError(it)
                             }
@@ -63,6 +68,7 @@ class DailyListViewModel @Inject constructor(
     }
 
     fun setDate(localDate: LocalDate) {
+        Timber.i("localDate changed " + localDate.year)
         dateLiveData.postValue(localDate)
     }
 }

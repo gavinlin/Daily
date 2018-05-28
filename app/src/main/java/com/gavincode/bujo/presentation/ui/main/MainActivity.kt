@@ -23,6 +23,7 @@ class MainActivity: AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -69,4 +70,5 @@ class MainActivity: AppCompatActivity(), HasSupportFragmentInjector {
     override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
         return dispatchingAndroidInjector
     }
+
 }
