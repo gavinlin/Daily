@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +49,9 @@ class InboxFragment: Fragment(), DailyListClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_inbox, container, false)
-        (activity as AppCompatActivity).setSupportActionBar(view.findViewById(R.id.inbox_toolbar))
+        val toolbar = view.findViewById<Toolbar>(R.id.inbox_toolbar)
+        toolbar.title = getString(R.string.inbox)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
         return view
     }
 

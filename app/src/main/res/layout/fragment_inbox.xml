@@ -17,7 +17,7 @@
                 android:id="@+id/inbox_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:theme="@style/ThemeOverlay.AppCompat.Light"
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
