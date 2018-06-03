@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gavincode.bujo.R
 import com.gavincode.bujo.domain.DailyBullet
 import com.gavincode.bujo.presentation.ui.Navigator
 import com.gavincode.bujo.presentation.ui.bullet.BulletActivity
 import com.gavincode.bujo.presentation.ui.main.*
+import com.gavincode.bujo.presentation.ui.widget.SwipeCallback
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_inbox.*
 import org.threeten.bp.LocalDate
@@ -70,6 +73,15 @@ class InboxFragment: Fragment(), DailyListClickListener {
         inbox_recycler_view.adapter = DailyListAdapter()
         (inbox_recycler_view.adapter as DailyListAdapter).dailyListOnClickListener = this
         inbox_recycler_view.layoutManager = LinearLayoutManager(context)
+
+        val simpleCallback = object: SwipeCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                dailyListViewModel.deleteByPosition(viewHolder.adapterPosition)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(inbox_recycler_view)
     }
 
     private fun handleAddClicked() {
@@ -83,11 +95,11 @@ class InboxFragment: Fragment(), DailyListClickListener {
                 .get(DailyListViewModel::class.java)
 
         dailyListViewModel.bindUiModel()
-                .observe(this, Observer {
+                .observe(viewLifecycleOwner, Observer {
                     it?.run { renderUi(this) }
                 })
         dailyListViewModel.bindDate()
-                .observe(this, Observer {
+                .observe(viewLifecycleOwner, Observer {
                     it?.run { dailyListViewModel.fetchLiveData() }
                 })
     }

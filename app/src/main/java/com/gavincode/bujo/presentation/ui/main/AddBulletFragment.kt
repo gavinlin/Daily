@@ -106,7 +106,7 @@ class AddBulletFragment: BottomSheetDialogFragment() {
 
         bulletViewModel.newDailyBullet(arguments?.getLong(Navigator.ARG_DATE_LONG))
         bulletViewModel.getDailyBulletState().observe(
-                this, Observer {
+                viewLifecycleOwner, Observer {
             it?.apply {
                 when(this) {
                     is BulletModel.Saved -> {

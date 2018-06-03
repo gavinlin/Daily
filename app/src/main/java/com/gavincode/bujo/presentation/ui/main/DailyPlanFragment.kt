@@ -90,15 +90,15 @@ class DailyPlanFragment: Fragment(), DailyListClickListener {
         swipe_refresh_view.setOnRefreshListener {
             dailyListViewModel.fetchLiveData()
         }
-        Navigator.getActivityForResultLiveData().observe(this,
+        Navigator.getActivityForResultLiveData().observe(viewLifecycleOwner,
                 Observer { it?.apply { handleActivityResult(it) } })
         dailyListViewModel.bindDate().observe(this,
                 Observer {
                     it?.run { dailyListViewModel.fetchLiveData() }
                 })
-        dailyListViewModel.bindUiModel().observe(this,
+        dailyListViewModel.bindUiModel().observe(viewLifecycleOwner,
                 Observer { it?.run { renderUi(this) } })
-        Navigator.getActivityForResultLiveData().observe(this,
+        Navigator.getActivityForResultLiveData().observe(viewLifecycleOwner,
                 Observer { it?.apply { handleActivityResult(it) } })
     }
 

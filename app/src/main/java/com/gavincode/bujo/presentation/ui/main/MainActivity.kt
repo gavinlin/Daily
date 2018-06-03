@@ -20,9 +20,12 @@ import javax.inject.Inject
 
 class MainActivity: AppCompatActivity(), HasSupportFragmentInjector {
 
+    private val BOTTOM_VIEW_STATE_ARG = "bottom_view_state"
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
+    private var selectedItemId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -63,12 +66,17 @@ class MainActivity: AppCompatActivity(), HasSupportFragmentInjector {
             }
             false
         }
-        bottom_navigation.selectedItemId = R.id.action_inbox
-    }
 
+        selectedItemId = savedInstanceState?.getInt(BOTTOM_VIEW_STATE_ARG, R.id.action_inbox) ?: R.id.action_inbox
+        bottom_navigation.selectedItemId = selectedItemId
+    }
 
     override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
         return dispatchingAndroidInjector
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putInt(BOTTOM_VIEW_STATE_ARG, bottom_navigation.selectedItemId)
+        super.onSaveInstanceState(outState)
+    }
 }

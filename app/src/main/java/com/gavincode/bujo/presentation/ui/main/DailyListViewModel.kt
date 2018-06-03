@@ -71,4 +71,13 @@ class DailyListViewModel @Inject constructor(
         Timber.i("localDate changed " + localDate.year)
         dateLiveData.postValue(localDate)
     }
+
+    fun deleteByPosition(position: Int) {
+        val bullet = (uiModelLiveData.value as DailyListUiModel.DailyBullets)
+                .dailyBullets[position]
+        dailyBulletRepository.deleteDailyBullet(bullet)
+                .subscribeOn(Schedulers.io())
+                .subscribe { fetchLiveData() }
+                .addTo(disposables)
+    }
 }
