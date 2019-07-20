@@ -149,7 +149,7 @@ class AddBulletFragment: BottomSheetDialogFragment() {
 
     private fun setDate(localDate: LocalDate) {
         add_task_date_chip.visibility = View.VISIBLE
-        add_task_date_chip.chipText =
+        add_task_date_chip.text =
                 localDate.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy"))
         add_task_date_chip.setOnCloseIconClickListener {
             it.visibility = View.GONE

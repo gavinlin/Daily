@@ -1,29 +1,30 @@
 
 object Versions {
-    val kotlin = "1.2.41"
-    val android_support = "28.0.0-alpha1"
-    val constraint = "1.0.2"
-    val firebase = "15.0.0"
-    val firebase_ui = "3.3.1"
-    val firebase_ml = "15.0.0"
+    val kotlin = "1.3.41"
+    val android_support = "28.0.0"
+    val constraint = "2.0.0-beta2"
+    val firebase_core = "17.0.1"
+    val firebase_firestore = "20.1.0"
+    val firebase_storage = "18.1.0"
+    val firebase_ui_auth = "5.0.0"
 
     val junit = "4.12"
     val runner = "1.0.1"
     val espresso = "3.0.1"
     val timber = "4.6.1"
     val threetenabp = "1.0.5"
-    val dagger = "2.16"
-    val rxjava = "2.1.10"
-    val rxandroid = "2.0.2"
+    val dagger = "2.23.2"
+    val rxjava = "2.2.10"
+    val rxandroid = "2.1.1"
     val room = "1.1.0"
     val gson = "2.8.2"
     val lifecycle = "1.1.1"
-    val multidex = "1.0.1"
-    val rxkotlin = "2.2.0"
+    val multidex = "1.0.3"
+    val rxkotlin = "2.3.0"
     val crashlytics = "2.9.1"
     val checklistview = "1.0.2"
     val navigation = "1.0.0-alpha01"
-    val material = "1.0.0-alpha1"
+    val material = "1.0.0"
 }
 
 object Deps {
@@ -35,18 +36,17 @@ object Deps {
     val support_recycler_view = "com.android.support:recyclerview-v7:${Versions.android_support}"
     val support_card_view = "com.android.support:cardview-v7:${Versions.android_support}"
 
-    val firebase_ui_auth = "com.firebaseui:firebase-ui-auth:${Versions.firebase_ui}"
-    val firebase_core = "com.google.firebase:firebase-core:${Versions.firebase}"
-    val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase}"
-    val firebase_storage = "com.google.firebase:firebase-storage:${Versions.firebase}"
-    val firebase_ml_vision = "com.google.firebase:firebase-ml-vision:${Versions.firebase_ml}"
+    val firebase_ui_auth = "com.firebaseui:firebase-ui-auth:${Versions.firebase_ui_auth}"
+    val firebase_core = "com.google.firebase:firebase-core:${Versions.firebase_core}"
+    val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore}"
+    val firebase_storage = "com.google.firebase:firebase-storage:${Versions.firebase_storage}"
     val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     val test_junit = "junit:junit:${Versions.junit}"
     val test_runner = "com.android.support.test:runner:${Versions.runner}"
-    val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
     val threetenabp = "com.jakewharton.threetenabp:threetenabp:${Versions.threetenabp}"
 

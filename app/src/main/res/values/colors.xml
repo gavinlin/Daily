@@ -3,6 +3,10 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#B59EFF</color>
+    <color name="colorPrimaryLight">#001212</color>
+    <color name="colorSecondaryLight">#0022cc</color>
+    <color name="colorSecondaryDark">#EFFFFF</color>
+
 
     <color name="scrim">#99323232</color>
 
